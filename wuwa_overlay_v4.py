@@ -2,12 +2,8 @@ import tkinter as tk
 from tkinter import scrolledtext
 import re, json, os, sys
 from typing import Optional
+from wuwa_updater import check_and_update, CURRENT_VER
 
-
-def get_base_dir():
-    if getattr(sys, "frozen", False):
-        return os.path.dirname(sys.executable)
-    return os.path.dirname(os.path.abspath(__file__))
 
 def get_resource(filename):
     if getattr(sys, "frozen", False):
@@ -16,7 +12,42 @@ def get_resource(filename):
         base = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(base, filename)
 
-DATA_FILE = os.path.join(get_base_dir(), "wuwa_chars.json")
+def get_appdata_dir():
+    appdata = os.environ.get("APPDATA", os.path.expanduser("~"))
+    path = os.path.join(appdata, "ddaljalky")
+    os.makedirs(path, exist_ok=True)
+    return path
+
+def get_data_file():
+    import urllib.request, shutil
+    appdata_json = os.path.join(get_appdata_dir(), "wuwa_chars.json")
+    if not os.path.exists(appdata_json):
+        # 1. 번들 json 시도
+        bundled = get_resource("wuwa_chars.json")
+        if os.path.exists(bundled):
+            shutil.copy(bundled, appdata_json)
+        else:
+            # 2. 번들 없으면 GitHub API로 최신 릴리즈 json 다운로드
+            try:
+                api_url = "https://api.github.com/repos/kedaygon/wuwa_yeejalky_overlay/releases/latest"
+                req = urllib.request.Request(api_url, headers={"User-Agent": "ddaljalky-overlay"})
+                with urllib.request.urlopen(req, timeout=10) as r:
+                    release = json.loads(r.read().decode("utf-8"))
+                dl_url = None
+                for asset in release.get("assets", []):
+                    if asset["name"] == "wuwa_chars.json":
+                        dl_url = asset["browser_download_url"]
+                        break
+                if dl_url:
+                    req2 = urllib.request.Request(dl_url, headers={"User-Agent": "ddaljalky-overlay"})
+                    with urllib.request.urlopen(req2, timeout=10) as r2:
+                        with open(appdata_json, "wb") as f:
+                            f.write(r2.read())
+            except Exception as e:
+                print(f"[초기 데이터 다운로드 실패] {e}")
+    return appdata_json
+
+DATA_FILE = get_data_file()
 ICON_FILE  = get_resource("00085-3009505209.ico")
 
 C = {
@@ -244,6 +275,15 @@ class CharCard(tk.Toplevel):
         ebtn.pack(side="right")
         ebtn.bind("<Button-1>", lambda e: self._edit_cycle())
 
+        video_url = self.char.get("video_url", "")
+        if video_url:
+            import webbrowser
+            vbtn = tk.Label(cyc_hd, text="▶ 기본기",
+                            font=("맑은 고딕", 8), fg=C["gold_lt"], bg=C["tbl_hd"],
+                            padx=6, cursor="hand2")
+            vbtn.pack(side="right")
+            vbtn.bind("<Button-1>", lambda e, u=video_url: webbrowser.open(u))
+
         tk.Frame(cyc, bg=C["border"], height=1).pack(fill="x")
 
         cyc_txt = self.char.get("cycle", "").strip()
@@ -276,6 +316,11 @@ class CharCard(tk.Toplevel):
         win.configure(bg=C["bg"])
         win.attributes("-topmost", True)
         win.geometry("360x240")
+        try:
+            if os.path.exists(ICON_FILE):
+                win.iconbitmap(ICON_FILE)
+        except Exception:
+            pass
 
         tk.Label(win, text=f"  {self.char['name']}  사이클",
                  font=("맑은 고딕", 10, "bold"), fg=C["gold_lt"], bg=C["tbl_hd"],
@@ -365,7 +410,7 @@ class CharCard(tk.Toplevel):
         outer.columnconfigure(4, weight=1)
 
         # 헤더
-        for col, txt in enumerate(["에코\n주옵", "코스트", "메인 에코", "서브옵1", "서브옵2"]):
+        for col, txt in enumerate(["에코\n주옵", "코스트", "메인 에코", "3코스트", "1코스트"]):
             tk.Label(outer, text=txt,
                      font=("맑은 고딕", 8, "bold"), fg=C["gold_lt"], bg=C["tbl_hd"],
                      pady=4, padx=4, anchor="center").grid(
@@ -400,7 +445,7 @@ class CharCard(tk.Toplevel):
                      pady=6, padx=6, anchor="center").grid(
                 row=r, column=2, sticky="nsew", padx=(0, 1))
 
-            # 서브옵 2×2: subs 리스트를 "/" 기준으로 좌/우 분리
+            # 3코1코 2×2: subs 리스트를 "/" 기준으로 좌/우 분리
             subs = build.get("subs", [])
             left_parts  = []
             right_parts = []
@@ -535,11 +580,11 @@ class CharCard(tk.Toplevel):
 class MainPanel:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("명조 오버레이")
+        self.root.title(f"딸잘키  v{CURRENT_VER}")
         self.root.configure(bg=C["bg"])
         self.root.attributes("-topmost", True)
         self.root.resizable(False, False)
-        self.root.geometry("480x140")
+        self.root.geometry("480x170")
         if os.path.exists(ICON_FILE):
             try:
                 self.root.iconbitmap(ICON_FILE)
@@ -553,7 +598,7 @@ class MainPanel:
     def _build_ui(self):
         hdr = tk.Frame(self.root, bg=C["tbl_hd"])
         hdr.pack(fill="x")
-        tk.Label(hdr, text="⚡  명조 오버레이 이잘키 가이드",
+        tk.Label(hdr, text="⚡  명조 이잘키 오버레이",
                  font=("맑은 고딕", 11, "bold"), fg=C["gold_lt"], bg=C["tbl_hd"],
                  padx=12, pady=8).pack(side="left")
         tk.Frame(self.root, bg=C["border"], height=1).pack(fill="x")
@@ -583,11 +628,28 @@ class MainPanel:
 
         tk.Frame(self.root, bg=C["border"], height=1).pack(fill="x")
 
+        # 투명도 슬라이더
+        sf2 = tk.Frame(self.root, bg=C["bg"])
+        sf2.pack(fill="x", padx=12, pady=(6,0))
+        tk.Label(sf2, text="가이드 투명도",
+                 font=("맑은 고딕", 8), fg=C["dim"], bg=C["bg"]).pack(side="left")
+        self._alpha_var = tk.DoubleVar(value=0.93)
+        alpha_slider = tk.Scale(
+            sf2, from_=0.3, to=1.0, resolution=0.01,
+            orient="horizontal", variable=self._alpha_var,
+            bg=C["bg"], fg=C["dim"], troughcolor=C["tbl_hd"],
+            highlightthickness=0, bd=0, showvalue=False,
+            command=self._set_popup_alpha
+        )
+        alpha_slider.pack(side="left", fill="x", expand=True, padx=8)
+
+        tk.Frame(self.root, bg=C["border"], height=1).pack(fill="x")
+
         bottom = tk.Frame(self.root, bg=C["bg"])
         bottom.pack(fill="x", padx=12, pady=8)
 
         tk.Label(bottom,
-            text="※ 방랑자는 속성만 or 이름붙여서 (예:기류, 기류방랑자)\nCitation:쿠로발냄새킁카킁카[명조챈]",
+            text="※ 방랑자는 속성만 or 이름붙여서 (예:기류, 기류방랑자)\nCitation:쿠로발냄새킁카킁카[명조챈], 닝냉뇽(유튜브)",
             font=("맑은 고딕", 8), fg=C["dim"], bg=C["bg"],
             anchor="w", justify="left").pack(side="left")
 
@@ -595,6 +657,13 @@ class MainPanel:
             text="made by 소리나",
             font=("맑은 고딕", 8), fg=C["dim"], bg=C["bg"],
             anchor="e").pack(side="right")
+
+    def _set_popup_alpha(self, val):
+        if self._popup:
+            try:
+                self._popup.attributes("-alpha", float(val))
+            except Exception:
+                pass
 
     def _do_search(self):
         q = self._sv.get().strip()
@@ -619,6 +688,7 @@ class MainPanel:
             self._popup = None
 
     def run(self):
+        check_and_update(self.root)
         self.root.mainloop()
 
 
