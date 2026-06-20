@@ -19,19 +19,87 @@ def _load_current_ver():
 
 CURRENT_VER = _load_current_ver()
 
-C = {
-    "bg":      "#1a1208",
-    "hd":      "#2d1f08",
-    "gold_lt": "#e8b84b",
-    "gold_dim":"#7a5a1a",
-    "text":    "#f0e6cc",
-    "dim":     "#a09070",
-    "border":  "#5a3e18",
-    "tbl_hd":  "#3d2a0e",
-    "tbl":     "#231608",
-    "white":   "#f8f0e0",
-    "green":   "#4caf50",
+THEMES = {
+    "default": {
+        "bg":      "#1a1208",
+        "hd":      "#2d1f08",
+        "gold_lt": "#e8b84b",
+        "gold_dim":"#7a5a1a",
+        "text":    "#f0e6cc",
+        "dim":     "#a09070",
+        "border":  "#5a3e18",
+        "tbl_hd":  "#3d2a0e",
+        "tbl":     "#231608",
+        "white":   "#f8f0e0",
+        "green":   "#4caf50",
+    },
+    "dark": {
+        "bg":      "#121212",
+        "hd":      "#2c2c2c",
+        "gold_lt": "#bb86fc",
+        "gold_dim":"#333333",
+        "text":    "#ffffff",
+        "dim":     "#757575",
+        "border":  "#383838",
+        "tbl_hd":  "#272727",
+        "tbl":     "#121212",
+        "white":   "#e8e0ff",
+        "green":   "#4caf50",
+    },
 }
+
+def _load_settings_theme():
+    try:
+        appdata = os.environ.get("APPDATA", os.path.expanduser("~"))
+        path = os.path.join(appdata, "ddaljalky", "settings.json")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f).get("theme", "default")
+    except Exception:
+        pass
+    return "default"
+
+C = THEMES.get(_load_settings_theme(), THEMES["default"])
+
+def _get_appdata_dir():
+    appdata = os.environ.get("APPDATA", os.path.expanduser("~"))
+    path = os.path.join(appdata, "ddaljalky")
+    os.makedirs(path, exist_ok=True)
+    return path
+
+def _load_last_version():
+    try:
+        path = os.path.join(_get_appdata_dir(), "settings.json")
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if "last_version" in data:
+                    return data["last_version"]
+    except Exception:
+        pass
+    # last_version 없으면 현재 버전으로 초기화 저장
+    _save_last_version(CURRENT_VER)
+    return CURRENT_VER
+
+def _save_last_version(ver):
+    try:
+        path = os.path.join(_get_appdata_dir(), "settings.json")
+        data = {}
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        data["last_version"] = ver
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False)
+    except Exception:
+        pass
+
+def _ssl_context():
+    import ssl
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+    return ctx
 
 def get_base_dir():
     if getattr(sys, "frozen", False):
@@ -48,7 +116,7 @@ def get_resource(filename):
 def fetch_text(url, timeout=5):
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "ddaljalky-overlay"})
-        with urllib.request.urlopen(req, timeout=timeout) as r:
+        with urllib.request.urlopen(req, timeout=timeout, context=_ssl_context()) as r:
             return r.read().decode("utf-8").strip()
     except Exception:
         return None
@@ -56,14 +124,14 @@ def fetch_text(url, timeout=5):
 def fetch_json(url, timeout=5):
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "ddaljalky-overlay"})
-        with urllib.request.urlopen(req, timeout=timeout) as r:
+        with urllib.request.urlopen(req, timeout=timeout, context=_ssl_context()) as r:
             return json.loads(r.read().decode("utf-8"))
     except Exception:
         return None
 
 def download_file(url, dest, progress_cb=None):
     req = urllib.request.Request(url, headers={"User-Agent": "ddaljalky-overlay"})
-    with urllib.request.urlopen(req) as r:
+    with urllib.request.urlopen(req, context=_ssl_context()) as r:
         total = int(r.headers.get("Content-Length", 0))
         downloaded = 0
         with open(dest, "wb") as f:
@@ -83,13 +151,12 @@ def get_asset_url(release_data, filename):
     return None
 
 class UpdateDialog(tk.Toplevel):
-    def __init__(self, master, latest_ver, has_exe, has_json, on_confirm):
+    def __init__(self, master, latest_ver, has_exe, has_json, on_confirm, release_body=""):
         super().__init__(master)
         self.title("업데이트 알림")
         self.configure(bg=C["bg"])
         self.attributes("-topmost", True)
         self.resizable(False, False)
-        self.geometry("360x200")
         try:
             icon = get_resource("00085-3009505209.ico")
             if os.path.exists(icon):
@@ -99,6 +166,7 @@ class UpdateDialog(tk.Toplevel):
         self._on_confirm = on_confirm
         self._has_exe  = has_exe
         self._has_json = has_json
+        self._json_only = has_json and not has_exe
 
         # 헤더
         tk.Label(self, text="⚡  업데이트 알림",
@@ -116,12 +184,10 @@ class UpdateDialog(tk.Toplevel):
                  font=("맑은 고딕", 9), fg=C["text"], bg=C["bg"],
                  anchor="w").pack(fill="x", pady=(2, 8))
 
-        items = []
-        if has_json: items.append("데이터 (wuwa_chars.json)")
-        if has_exe:  items.append("프로그램 (ddaljalky.exe)")
-        tk.Label(body, text="업데이트 항목:\n" + "\n".join(f"  • {i}" for i in items),
-                 font=("맑은 고딕", 9), fg=C["dim"], bg=C["bg"],
-                 anchor="w", justify="left").pack(fill="x")
+        if release_body:
+            tk.Label(body, text=release_body,
+                     font=("맑은 고딕", 9), fg=C["dim"], bg=C["bg"],
+                     anchor="w", justify="left", wraplength=320).pack(fill="x")
 
         # 진행바 (숨김 상태로 준비)
         self._prog_frame = tk.Frame(self, bg=C["bg"])
@@ -147,6 +213,9 @@ class UpdateDialog(tk.Toplevel):
         tk.Button(bf, text="나중에",
                   font=("맑은 고딕", 9), fg=C["text"], bg=C["tbl_hd"],
                   relief="flat", command=self.destroy).pack(side="left", ipadx=12, ipady=4)
+
+        self.update_idletasks()
+        self.geometry(f"360x{self.winfo_reqheight()}")
 
     def _start_update(self):
         self._confirm_btn.configure(state="disabled")
@@ -178,45 +247,58 @@ class UpdateDialog(tk.Toplevel):
         tk.Label(body, text="✅  업데이트가 완료되었습니다!",
                  font=("맑은 고딕", 10, "bold"), fg=C["gold_lt"], bg=C["bg"],
                  anchor="w").pack(fill="x")
-        tk.Label(body, text="프로그램을 다시 실행해주세요.",
+        if self._json_only:
+            done_text = "데이터가 업데이트 되었습니다.\n재시작 후 새 데이터가 적용됩니다."
+            close_cmd = self.destroy
+        else:
+            done_text = "업데이트 완료 후 정리까지 5~10초 정도 소요되므로\n이후 프로그램을 다시 실행해주세요."
+            close_cmd = lambda: os._exit(0)
+        tk.Label(body, text=done_text,
                  font=("맑은 고딕", 9), fg=C["text"], bg=C["bg"],
-                 anchor="w", pady=6).pack(fill="x")
+                 anchor="w", pady=6, justify="left").pack(fill="x")
         tk.Button(self, text="닫기",
                   font=("맑은 고딕", 9, "bold"), fg=C["bg"], bg=C["gold_lt"],
-                  relief="flat", command=lambda: os._exit(0)).pack(pady=(0, 12), ipadx=16, ipady=4)
+                  relief="flat", command=close_cmd).pack(pady=(0, 12), ipadx=16, ipady=4)
 
 
 def check_and_update(master):
     def _check():
         latest_ver = fetch_text(VERSION_URL)
-        if not latest_ver or latest_ver == CURRENT_VER:
+        last_ver = _load_last_version()
+        if not latest_ver or latest_ver == last_ver:
             return
 
         release = fetch_json(API_URL)
         if not release:
             return
 
-        exe_url  = get_asset_url(release, "ddaljalky.exe")
-        json_url = get_asset_url(release, "wuwa_chars.json")
+        exe_url      = get_asset_url(release, "ddaljalky.exe")
+        json_url     = get_asset_url(release, "wuwa_chars.json")
         has_exe  = bool(exe_url)
         has_json = bool(json_url)
+        release_body = (release.get("body") or "").strip()
 
         if not has_exe and not has_json:
             return
 
         def on_confirm(progress_cb):
             base = get_base_dir()
+            appdata_dir = os.path.join(os.environ.get("APPDATA", os.path.expanduser("~")), "ddaljalky")
+            os.makedirs(appdata_dir, exist_ok=True)
 
-            if has_json and json_url:
-                progress_cb(0.0, "데이터 다운로드 중...")
-                appdata = os.environ.get("APPDATA", os.path.expanduser("~"))
-                appdata_dir = os.path.join(appdata, "ddaljalky")
-                os.makedirs(appdata_dir, exist_ok=True)
-                json_dest = os.path.join(appdata_dir, "wuwa_chars.json")
-                download_file(json_url, json_dest,
-                              lambda p: progress_cb(p * (0.4 if has_exe else 1.0),
-                                                    "데이터 다운로드 중..."))
-                progress_cb(0.4 if has_exe else 1.0, "데이터 완료!")
+            data_jobs = []
+            if json_url:     data_jobs.append((json_url,     os.path.join(appdata_dir, "wuwa_chars.json"),    "캐릭터 데이터 다운로드 중..."))
+
+            data_ratio = 0.4 if has_exe else 1.0
+            for i, (url, dest, label) in enumerate(data_jobs):
+                seg_start = data_ratio * i / len(data_jobs)
+                seg_end   = data_ratio * (i + 1) / len(data_jobs)
+                download_file(url, dest,
+                              lambda p, s=seg_start, e=seg_end, lb=label:
+                              progress_cb(s + p * (e - s), lb))
+
+            _save_last_version(latest_ver)
+            progress_cb(data_ratio, "데이터 완료!")
 
             if has_exe and exe_url:
                 progress_cb(0.4, "프로그램 다운로드 중...")
@@ -247,6 +329,6 @@ def check_and_update(master):
                         close_fds=True
                     )
 
-        master.after(0, lambda: UpdateDialog(master, latest_ver, has_exe, has_json, on_confirm))
+        master.after(0, lambda: UpdateDialog(master, latest_ver, has_exe, has_json, on_confirm, release_body))
 
     threading.Thread(target=_check, daemon=True).start()

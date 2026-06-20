@@ -2,24 +2,25 @@ import subprocess, sys, os, shutil
 
 def main():
     base = os.path.dirname(os.path.abspath(__file__))
-    main_script    = os.path.join(base, "wuwa_overlay_v4.py")
+    main_script    = os.path.join(base, "wuwa_overlay_v5.py")
     updater_script = os.path.join(base, "wuwa_updater.py")
     version_file   = os.path.join(base, "version.txt")
+
     if not os.path.exists(version_file):
         print("[빌드] version.txt 없음 → 생성 필요")
-    # PyInstaller 없으면 설치
+
     try:
         import PyInstaller
     except ImportError:
         print("[빌드] PyInstaller 설치 중...")
         subprocess.check_call([sys.executable, "-m", "pip", "install", "pyinstaller"])
 
-    # keyboard 없으면 설치
     try:
         import keyboard
     except ImportError:
         print("[빌드] keyboard 설치 중...")
         subprocess.check_call([sys.executable, "-m", "pip", "install", "keyboard"])
+
 
     print("[빌드] 빌드 시작...")
 
@@ -31,6 +32,12 @@ def main():
         "--windowed",
         "--name", "ddaljalky",
         "--hidden-import", "tkinter",
+        "--hidden-import", "winrt.windows.media.ocr",
+        "--hidden-import", "winrt.windows.graphics.imaging",
+        "--hidden-import", "winrt.windows.storage.streams",
+        "--hidden-import", "winrt.windows.foundation",
+        "--hidden-import", "winrt.windows.foundation.collections",
+
         "--add-data", f"{updater_script};.",
         "--add-data", f"{version_file};.",
         "--clean",
