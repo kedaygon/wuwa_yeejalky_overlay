@@ -1,11 +1,10 @@
 {
   "기염": {
     "name": "기염",
-    "element": "",
+    "element": "기류",
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "기류 메인 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "청룡의 천장[전무]",
       "푸른물결의 빛[상시]",
@@ -37,15 +36,37 @@
     },
     "energy_cost": "",
     "notes": "1체인에 공명스킬 1회 추가가 있어서 1체인 이상이면 요구 공효 수치가 낮아짐",
-    "video_url": "https://youtu.be/Tv9xT_Gdw2Q?si=w8eSmwiE3LHD60vd"
+    "video_url": "https://youtu.be/Tv9xT_Gdw2Q?si=w8eSmwiE3LHD60vd",
+    "teams": [
+      {
+        "name": "기염1",
+        "members": [
+          "유노",
+          "파수인",
+          "벨리나"
+        ]
+      },
+      {
+        "name": "기염2",
+        "members": [
+          "모르테피",
+          "파수인",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "강공격": 0.65,
+      "공명스킬": 0.15
+    }
   },
   "샤콘": {
     "name": "샤콘",
-    "element": "",
+    "element": "기류",
     "skill_priority": "공명 회로, 공명 해방, 공명스킬 우선",
     "position": "기류 서포터, 빠른 협주",
     "node_option": "크리피해",
-    "cycle": "",
     "weapons": [
       "숲속의 아리아[전무]",
       "부동의 안개[상시]",
@@ -77,15 +98,37 @@
     },
     "energy_cost": "",
     "notes": "카르티시아 전용 서포터로 사용",
-    "video_url": "https://youtu.be/v5b516EUJa0?si=7d5FapmmGQR48dfc"
+    "video_url": "https://youtu.be/v5b516EUJa0?si=7d5FapmmGQR48dfc",
+    "teams": [
+      {
+        "name": "샤콘1",
+        "members": [
+          "카르티시아",
+          "기류방랑자"
+        ]
+      },
+      {
+        "name": "샤콘2",
+        "members": [
+          "카르티시아",
+          "치사"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.35,
+      "강공격": 0.2,
+      "공명스킬": 0.05,
+      "일반공격": 0.25
+    }
   },
   "카르티시아": {
     "name": "카르티시아",
-    "element": "",
+    "element": "기류",
     "skill_priority": "공명 회로, 공명 해방, 일반공격 우선",
     "position": "기류 메인딜러, 체력% 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "숙명에 맞서는 관 [전무]",
       "날카로운 봄[카멜]"
@@ -115,7 +158,29 @@
     },
     "energy_cost": "120",
     "notes": "샤콘과 기류 방랑자 파티 사용",
-    "video_url": "https://youtu.be/kwUDjCgGSNo?si=Zl3QgkO9tDsmOXWg"
+    "video_url": "https://youtu.be/kwUDjCgGSNo?si=Zl3QgkO9tDsmOXWg",
+    "teams": [
+      {
+        "name": "카르티시아1",
+        "members": [
+          "샤콘",
+          "기류방랑자"
+        ]
+      },
+      {
+        "name": "카르티시아2",
+        "members": [
+          "샤콘",
+          "치사"
+        ]
+      }
+    ],
+    "type": "hp",
+    "dmg_contribution": {
+      "공명해방": 0.3,
+      "공명스킬": 0.1,
+      "일반공격": 0.5
+    }
   },
   "기류방랑자": {
     "name": "기류방랑자",
@@ -123,7 +188,6 @@
     "skill_priority": "공명 회로, 공명 해방, 공명 스킬 우선",
     "position": "기류 서포터",
     "node_option": "치료 효과",
-    "cycle": "",
     "weapons": [
       "혈맹의 약속[전무]",
       "천년의 회류[상시]",
@@ -135,8 +199,8 @@
         "tag": "43311",
         "main": "크확,크피",
         "subs": [
-          "기류피증or공퍼/공퍼",
-          "기류피증or공명효율/공퍼"
+          "기류피증 l 공퍼/공퍼",
+          "기류피증 l 공명효율/공퍼"
         ]
       }
     ],
@@ -155,22 +219,37 @@
     },
     "energy_cost": "",
     "notes": "혈맹의 약속은 메인스토리 클리어시 획득 가능\n스킬 및 에코작은 사이클 용 최소 육성 권장\n파수인으로 대체 가능\n찬란한 광휘 사용시 기존 힐러 세팅 그대로",
-    "video_url": "https://youtu.be/ESXdvW-6bpA?si=FS3JHlhmhejOIxnW"
+    "video_url": "https://youtu.be/ESXdvW-6bpA?si=FS3JHlhmhejOIxnW",
+    "teams": [
+      {
+        "name": "기류방랑자1",
+        "members": [
+          "카르티시아",
+          "샤콘"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.2,
+      "강공격": 0.0,
+      "공명스킬": 0.65,
+      "일반공격": 0.05
+    }
   },
   "유노": {
     "name": "유노",
-    "element": "",
+    "element": "기류",
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "기류 서브 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "세상 만물의 진리[전무]",
       "팔방의 천추[상리요]",
       "불빛의 심판[젠니]",
       "물결의 파동[상시]"
     ],
-    "echo_set": "영광의 칼날로 만들어진 왕관[3세트(크피20%)]\n스쳐가는 바람[2세트] or 끝없는 하늘[2세트]\nor 영광이 깃든 바람[2세트] / 떠오르는 구름[43311]",
+    "echo_set": "영광의 칼날로 만들어진 왕관[3세트(크피20%)]\n스쳐가는 바람[2세트] or 끝없는 하늘[2세트]\nor 영광이 깃든 바람[2세트]\n떠오르는 구름[43311]",
     "echo_builds": [
       {
         "tag": "43311",
@@ -196,15 +275,29 @@
     },
     "energy_cost": "",
     "notes": "",
-    "video_url": "https://youtu.be/_CsH5z6-Sdo?si=YjTx0gWwxqIyJ0Nc"
+    "video_url": "https://youtu.be/_CsH5z6-Sdo?si=YjTx0gWwxqIyJ0Nc",
+    "teams": [
+      {
+        "name": "유노1",
+        "members": [
+          "아우구스타",
+          "파수인",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.9,
+      "공명스킬": 0.06
+    }
   },
   "구원": {
     "name": "구원",
-    "element": "",
+    "element": "기류",
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "기류 서브 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "푸른 의지[전무]",
       "날카로운 봄[카멜리아]",
@@ -237,15 +330,35 @@
     },
     "energy_cost": "",
     "notes": "떠오르는 구름 세트 사용시 파티딜이 더 높고 공명 효율 요구치 10% 감소함",
-    "video_url": "https://youtu.be/YZ8sah8PBFU?si=sq3yTLh77G54jUly"
+    "video_url": "https://youtu.be/YZ8sah8PBFU?si=sq3yTLh77G54jUly",
+    "teams": [
+      {
+        "name": "구원1",
+        "members": [
+          "시그리카",
+          "파수인"
+        ]
+      },
+      {
+        "name": "구원2",
+        "members": [
+          "갈브레나",
+          "플로로",
+          "파수인"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "강공격": 0.65
+    }
   },
   "시그리카": {
     "name": "시그리카",
-    "element": "",
+    "element": "기류",
     "skill_priority": "일반 공격, 공명 회로, 공명 해방 우선",
     "position": "메인 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "솔스원의 해석[전무]",
       "불빛의 심판[젠니]",
@@ -277,20 +390,40 @@
     },
     "energy_cost": "",
     "notes": "부옵으로 공효 35% 이상 챙길 수 있으면\n3코 공퍼 2개 채용 가능하다고 함\n파수인 2돌이면 속성 피증, 공퍼가 우위\n그리고 공명 스킬도 찍어줄 수 있으면 찍어주셈",
-    "video_url": "https://youtu.be/FDyaPZ_vDsc?si=CZuUtRiPSelnpx3j"
+    "video_url": "https://youtu.be/FDyaPZ_vDsc?si=CZuUtRiPSelnpx3j",
+    "teams": [
+      {
+        "name": "시그리카1",
+        "members": [
+          "구원",
+          "파수인"
+        ]
+      },
+      {
+        "name": "시그리카2",
+        "members": [
+          "칸타렐라",
+          "루실라",
+          "파수인"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "일반공격": 0.06
+    }
   },
   "앙코": {
     "name": "앙코",
-    "element": "",
+    "element": "용융",
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "용융 메인 딜러",
     "node_option": "용융피증",
-    "cycle": "",
     "weapons": [
-      "꼭두각시의 손",
-      "옥수 비단",
-      "파도의 기록",
-      "청음"
+      "꼭두각시의 손[음림]",
+      "옥수 비단[절지]",
+      "파도의 기록[상시]",
+      "청음[패스]"
     ],
     "echo_set": "솟구치는 용암[43311]",
     "echo_builds": [
@@ -318,15 +451,37 @@
     },
     "energy_cost": "",
     "notes": "2체인에 공명 에너지 회복이 달려있어서 2체인 이상이면 공효 요구치가 낮아짐",
-    "video_url": "https://youtu.be/ZVa43OrAIFA?si=OSb8bt9qVam4EeCU"
+    "video_url": "https://youtu.be/ZVa43OrAIFA?si=OSb8bt9qVam4EeCU",
+    "teams": [
+      {
+        "name": "앙코1",
+        "members": [
+          "루파",
+          "브렌트"
+        ]
+      },
+      {
+        "name": "앙코2",
+        "members": [
+          "장리",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.1,
+      "강공격": 0.0,
+      "공명스킬": 0.15,
+      "일반공격": 0.6
+    }
   },
   "장리": {
     "name": "장리",
-    "element": "",
+    "element": "용융",
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "용융 시너지 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "솟아오르는 화염[전무]",
       "천년의 회류[상시]",
@@ -358,15 +513,36 @@
     },
     "energy_cost": "",
     "notes": "2체인에 이화 획득시 크리 25퍼 증가가 있어서 2체인 이상이면 4코 주옵 크리피해 고려",
-    "video_url": "https://youtu.be/2TOjxjfL4Ys?si=_uHXixM2jHGI28qB"
+    "video_url": "https://youtu.be/2TOjxjfL4Ys?si=_uHXixM2jHGI28qB",
+    "teams": [
+      {
+        "name": "장리1",
+        "members": [
+          "루파",
+          "브렌트"
+        ]
+      },
+      {
+        "name": "장리2",
+        "members": [
+          "산화",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.25,
+      "공명스킬": 0.65,
+      "일반공격": 0.05
+    }
   },
   "브렌트": {
     "name": "브렌트",
-    "element": "",
+    "element": "용융",
     "skill_priority": "공명 회로, 일반 공격, 공명 해방, 변주스킬, 공명스킬 우선",
     "position": "용융 서브 딜러, 서포터",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "흔들리지 않는 용기[전무]",
       "날카로운 봄[카멜리아]",
@@ -399,15 +575,28 @@
     },
     "energy_cost": "",
     "notes": "일공피 >> 공% / 용융속성 전용 서포터로 사용하거나, 일반공격 피해 버프를 주는 아군과 사용 최대 공효 280",
-    "video_url": "https://youtu.be/HmwYsxb1Bt8?si=CeuEFS1sOjpw6EH7"
+    "video_url": "https://youtu.be/HmwYsxb1Bt8?si=CeuEFS1sOjpw6EH7",
+    "teams": [
+      {
+        "name": "브렌트1",
+        "members": [
+          "루파",
+          "장리"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.1,
+      "일반공격": 0.8
+    }
   },
   "루파": {
     "name": "루파",
-    "element": "",
+    "element": "용융",
     "skill_priority": "공명해방, 공명회로, 변주스킬, 일반공격, 공명 스킬 순서",
     "position": "용융 시너지 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "불길[전무]",
       "태평성대[금희]",
@@ -440,15 +629,37 @@
     },
     "energy_cost": "",
     "notes": "1체인에 크확 20퍼 증가가 있어서 1체인 이상이면 4코 주옵 크리피해를 쓸수도 있으나 4코 주옵은 크확이 정배",
-    "video_url": "https://youtu.be/9vhycKLVSfY?si=t_pe113usIfJW1iI"
+    "video_url": "https://youtu.be/9vhycKLVSfY?si=t_pe113usIfJW1iI",
+    "teams": [
+      {
+        "name": "루파1",
+        "members": [
+          "장리",
+          "브렌트"
+        ]
+      },
+      {
+        "name": "루파2",
+        "members": [
+          "갈브레나",
+          "브렌트"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.75,
+      "강공격": 0.07,
+      "공명스킬": 0.1,
+      "일반공격": 0.05
+    }
   },
   "갈브레나": {
     "name": "갈브레나",
-    "element": "",
+    "element": "용융",
     "skill_priority": "일반 공격, 공명 회로, 공명 해방 우선",
     "position": "용융 메인 딜러",
     "node_option": "크리피해",
-    "cycle": "",
     "weapons": [
       "얽혀진 빛과 그림자[전무]",
       "죽음과 춤[카를로타]",
@@ -481,15 +692,35 @@
     },
     "energy_cost": "",
     "notes": "메인 에코는 3코 코로사우루스",
-    "video_url": "https://youtu.be/ko-MtHBidcU?si=9_qjhymHpFgaheRh"
+    "video_url": "https://youtu.be/ko-MtHBidcU?si=9_qjhymHpFgaheRh",
+    "teams": [
+      {
+        "name": "갈브레나1",
+        "members": [
+          "구원",
+          "루실라",
+          "파수인"
+        ]
+      },
+      {
+        "name": "갈브레나2",
+        "members": [
+          "루파",
+          "브렌트"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "강공격": 0.35
+    }
   },
   "모니에": {
     "name": "모니에",
-    "element": "",
+    "element": "용융",
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "힐러",
     "node_option": "방어력",
-    "cycle": "",
     "weapons": [
       "별하늘 연산 측정기[전무]",
       "기묘한 울림"
@@ -514,15 +745,37 @@
     },
     "energy_cost": "",
     "notes": "기묘한 울림 사용시 3코 공효 2개 필수",
-    "video_url": "https://youtu.be/-v3yknvzkaA?si=3w1yr7iSWNGfyjzC"
+    "video_url": "https://youtu.be/-v3yknvzkaA?si=3w1yr7iSWNGfyjzC",
+    "teams": [
+      {
+        "name": "모니에1",
+        "members": [
+          "에이메스",
+          "린네"
+        ]
+      },
+      {
+        "name": "모니에2",
+        "members": [
+          "루크",
+          "린네"
+        ]
+      }
+    ],
+    "type": "defense",
+    "dmg_contribution": {
+      "공명해방": 0.0,
+      "강공격": 0.0,
+      "공명스킬": 0.0,
+      "일반공격": 0.0
+    }
   },
   "에이메스": {
     "name": "에이메스",
-    "element": "",
+    "element": "용융",
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "용융 메인 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "영원한 샛별[전무]",
       "천년의 회류[구상시]",
@@ -555,22 +808,42 @@
     },
     "energy_cost": "",
     "notes": "",
-    "video_url": "https://youtu.be/PIztsIZGs3g?si=TtAJFBiSix3TD4Zi"
+    "video_url": "https://youtu.be/PIztsIZGs3g?si=TtAJFBiSix3TD4Zi",
+    "teams": [
+      {
+        "name": "에이메스1",
+        "members": [
+          "데니아",
+          "치사"
+        ]
+      },
+      {
+        "name": "에이메스2",
+        "members": [
+          "린네",
+          "모니에"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.8,
+      "일반공격": 0.08
+    }
   },
   "절지": {
     "name": "절지",
-    "element": "",
+    "element": "응결",
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "응결 협동 서브 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "옥수 비단[전무]",
       "꼭두각시의 손[음림]",
       "파도의 기록",
       "청음"
     ],
-    "echo_set": "떠오르는 구름[43311] 하늘의 합주곡[43311]",
+    "echo_set": "떠오르는 구름[43311]\n하늘의 합주곡[43311]",
     "echo_builds": [
       {
         "tag": "43311",
@@ -596,15 +869,37 @@
     },
     "energy_cost": "",
     "notes": "1체인에 공명 에너지 회복이 달려있어서 1체인 이상이면 공효 요구치가 낮아짐",
-    "video_url": "https://youtu.be/tPixqdRv-bk?si=MYKqaJhaYirMYpLF"
+    "video_url": "https://youtu.be/tPixqdRv-bk?si=MYKqaJhaYirMYpLF",
+    "teams": [
+      {
+        "name": "절지1",
+        "members": [
+          "카를로타",
+          "파수인"
+        ]
+      },
+      {
+        "name": "절지1",
+        "members": [
+          "금희",
+          "파수인",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "강공격": 0.05,
+      "공명스킬": 0.05,
+      "일반공격": 0.8
+    }
   },
   "카를로타": {
     "name": "카를로타",
-    "element": "",
+    "element": "응결",
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "응결 메인 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "죽음의 춤[전무]",
       "부동의 안개[상시]",
@@ -636,15 +931,35 @@
     },
     "energy_cost": "",
     "notes": "파티에 절지가 있을 시 공효 110이면 충분",
-    "video_url": "https://youtu.be/HmNhsrwS5V4?si=RClSCIKMTExwXqJU"
+    "video_url": "https://youtu.be/HmNhsrwS5V4?si=RClSCIKMTExwXqJU",
+    "teams": [
+      {
+        "name": "카를로타1",
+        "members": [
+          "절지",
+          "파수인",
+          "복링"
+        ]
+      },
+      {
+        "name": "카를로타2",
+        "members": [
+          "절지",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명스킬": 0.85
+    }
   },
   "능양": {
     "name": "능양",
-    "element": "",
+    "element": "응결",
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "응결 메인 딜러",
     "node_option": "응결피해",
-    "cycle": "",
     "weapons": [
       "불빛의 심판[젠니]",
       "팔방의 천추[상리요]",
@@ -677,15 +992,37 @@
     },
     "energy_cost": "",
     "notes": "",
-    "video_url": "https://youtu.be/Q0aYGzH-Adg?si=yGjClUygtv6uyqAR"
+    "video_url": "https://youtu.be/Q0aYGzH-Adg?si=yGjClUygtv6uyqAR",
+    "teams": [
+      {
+        "name": "능양1",
+        "members": [
+          "절지",
+          "파수인"
+        ]
+      },
+      {
+        "name": "능양2",
+        "members": [
+          "산화",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.06,
+      "강공격": 0.0,
+      "공명스킬": 0.3,
+      "일반공격": 0.35
+    }
   },
   "히유키": {
     "name": "히유키",
-    "element": "",
+    "element": "응결",
     "skill_priority": "일반 공격, 공명 회로, 공명 해방 우선",
     "position": "메인 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "서린 불꽃[전무]",
       "천년의 회류[구상시]",
@@ -717,22 +1054,43 @@
     },
     "energy_cost": "",
     "notes": "풀돌은 4코 공퍼 사용 가능\n공컷은 2850",
-    "video_url": "https://youtu.be/iIAeuLdbF2c?si=DSk-jvxnReT_fOJr"
+    "video_url": "https://youtu.be/iIAeuLdbF2c?si=DSk-jvxnReT_fOJr",
+    "teams": [
+      {
+        "name": "히유키1",
+        "members": [
+          "루실라",
+          "치사"
+        ]
+      },
+      {
+        "name": "히유키2",
+        "members": [
+          "린네",
+          "치사",
+          "모니에"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.95,
+      "공명스킬": 0.03
+    }
   },
   "음림": {
     "name": "음림",
-    "element": "",
+    "element": "전도",
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "전도 협동 서브 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "꼭두각시의 손[전무]",
       "옥수 비단[절지]",
       "파도의 기록",
       "청음"
     ],
-    "echo_set": "떠오르는 구름[43311] 하늘의 합주곡[43311]",
+    "echo_set": "떠오르는 구름[43311]\n하늘의 합주곡[43311]",
     "echo_builds": [
       {
         "tag": "43311",
@@ -758,20 +1116,42 @@
     },
     "energy_cost": "",
     "notes": "2체인에 공명 에너지 회복이 달려있어서 2체인 이상이면 공효 요구치가 낮아짐",
-    "video_url": "https://youtu.be/9niDG8v1a2A?si=0lhzB3Him7iAMPPp"
+    "video_url": "https://youtu.be/9niDG8v1a2A?si=0lhzB3Him7iAMPPp",
+    "teams": [
+      {
+        "name": "음림1",
+        "members": [
+          "상리요",
+          "파수인"
+        ]
+      },
+      {
+        "name": "음림2",
+        "members": [
+          "카카루",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.2,
+      "강공격": 0.1,
+      "공명스킬": 0.55,
+      "일반공격": 0.05
+    }
   },
   "카카루": {
     "name": "카카루",
-    "element": "",
+    "element": "전도",
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "전도 메인 딜러",
     "node_option": "크리피해",
-    "cycle": "",
     "weapons": [
-      "태평성대",
-      "청룡의 천장",
-      "푸른 물결의 빛",
-      "가을의 무늬"
+      "태평성대[금희]",
+      "청룡의 천장[기염]",
+      "푸른 물결의 빛[상시]",
+      "가을의 무늬[패스]"
     ],
     "echo_set": "울려퍼지는 뇌음[43311]",
     "echo_builds": [
@@ -799,15 +1179,37 @@
     },
     "energy_cost": "",
     "notes": "1체인에 공명 에너지 회복이 달려있어서 1체인 이상이면 공효 요구치가 낮아짐",
-    "video_url": "https://youtu.be/3_5VVeGQj8c?si=HFSam_qwNDSSq32n"
+    "video_url": "https://youtu.be/3_5VVeGQj8c?si=HFSam_qwNDSSq32n",
+    "teams": [
+      {
+        "name": "카카루1",
+        "members": [
+          "음림",
+          "파수인"
+        ]
+      },
+      {
+        "name": "카카루2",
+        "members": [
+          "음림",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.55,
+      "강공격": 0.0,
+      "공명스킬": 0.0,
+      "일반공격": 0.25
+    }
   },
   "상리요": {
     "name": "상리요",
-    "element": "",
+    "element": "전도",
     "skill_priority": "공명 회로, 공명 해방 우선",
     "position": "전도 딜러",
     "node_option": "크리피해",
-    "cycle": "",
     "weapons": [
       "팔방의 천추[전무]",
       "물결의 파동",
@@ -839,15 +1241,36 @@
     },
     "energy_cost": "",
     "notes": "",
-    "video_url": "https://youtu.be/o1IlQ4XIZVI?si=fTCdiYXxT-xfgXzH"
+    "video_url": "https://youtu.be/o1IlQ4XIZVI?si=fTCdiYXxT-xfgXzH",
+    "teams": [
+      {
+        "name": "상리요1",
+        "members": [
+          "음림",
+          "파수인"
+        ]
+      },
+      {
+        "name": "상리요2",
+        "members": [
+          "음림",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.65,
+      "공명스킬": 0.13,
+      "일반공격": 0.08
+    }
   },
   "아우구스타": {
     "name": "아우구스타",
-    "element": "",
+    "element": "전도",
     "skill_priority": "일반 공격, 공명 회로, 공명 해방 우선",
     "position": "전도 메인 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "천둥벼락을 다스리는 권능[전무]",
       "청룡의 천장[기염]",
@@ -880,7 +1303,28 @@
     },
     "energy_cost": "",
     "notes": "2돌파: 4코 크리/크피 자유\n풀돌: 4코 크피",
-    "video_url": "https://youtu.be/JEY_yMjWJH0?si=fzItBmdK6y4DO0OJ"
+    "video_url": "https://youtu.be/JEY_yMjWJH0?si=fzItBmdK6y4DO0OJ",
+    "teams": [
+      {
+        "name": "아우구스타1",
+        "members": [
+          "유노",
+          "파수인"
+        ]
+      },
+      {
+        "name": "아우구스타2",
+        "members": [
+          "모르테피",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "강공격": 0.83,
+      "공명스킬": 0.1
+    }
   },
   "인멸방랑자": {
     "name": "인멸방랑자",
@@ -888,7 +1332,6 @@
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "인멸 메인 딜러",
     "node_option": "인멸피증",
-    "cycle": "",
     "weapons": [
       "천년의 회류[상시]",
       "솟아오르는 화염[장리]",
@@ -919,15 +1362,37 @@
       "에너지소모": "125"
     },
     "energy_cost": "",
-    "notes": "6돌 + 상시 직검(or 패스 무기)일 경우 크피 옵션에 집중"
+    "notes": "6돌 + 상시 직검(or 패스 무기)일 경우 크피 옵션에 집중",
+    "teams": [
+      {
+        "name": "인멸방랑자1",
+        "members": [
+          "단근",
+          "파수인"
+        ]
+      },
+      {
+        "name": "인멸방랑자",
+        "members": [
+          "양양",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0,
+      "강공격": 0,
+      "공명스킬": 0,
+      "일반공격": 0
+    }
   },
   "카멜리아": {
     "name": "카멜리아",
-    "element": "",
+    "element": "인멸",
     "skill_priority": "회로 스킬, 해방, 평타 우선",
     "position": "인멸 딜러",
     "node_option": "크리피해",
-    "cycle": "",
     "weapons": [
       "날카로운 봄[전무]",
       "천년의 회류[상시]",
@@ -959,15 +1424,35 @@
     },
     "energy_cost": "",
     "notes": "",
-    "video_url": "https://youtu.be/ECvpfOsFUoo?si=3ZPmhIu9Tja2XeSC"
+    "video_url": "https://youtu.be/ECvpfOsFUoo?si=3ZPmhIu9Tja2XeSC",
+    "teams": [
+      {
+        "name": "카멜리아1",
+        "members": [
+          "로코코",
+          "파수인"
+        ]
+      },
+      {
+        "name": "카멜리아1",
+        "members": [
+          "산화",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.15,
+      "일반공격": 0.8
+    }
   },
   "로코코": {
     "name": "로코코",
-    "element": "",
+    "element": "인멸",
     "skill_priority": "회로 해방 스킬 우선",
     "position": "인멸 서브 딜러",
     "node_option": "크리피해",
-    "cycle": "",
     "weapons": [
       "희비극[전무]",
       "팔방의 천추[상리요]",
@@ -1000,22 +1485,42 @@
     },
     "energy_cost": "",
     "notes": "구름 세트 기용시 공효 요구치 -10",
-    "video_url": "https://youtu.be/YYOWlilp0Hs?si=kLe0rEU022CZ8s_8"
+    "video_url": "https://youtu.be/YYOWlilp0Hs?si=kLe0rEU022CZ8s_8",
+    "teams": [
+      {
+        "name": "로코코1",
+        "members": [
+          "플로로",
+          "칸타렐라"
+        ]
+      },
+      {
+        "name": "로코코",
+        "members": [
+          "카멜리아",
+          "파수인"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "강공격": 0.7,
+      "공명스킬": 0.15
+    }
   },
   "칸타렐라": {
     "name": "칸타렐라",
-    "element": "",
+    "element": "인멸",
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "인멸 협동 서브 힐딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "바다의 속삭임[전무]",
       "꼭두각시의 손[음림]",
       "파도의 기록",
       "청음"
     ],
-    "echo_set": "어둠의 장막[43311] 떠오르는 구름[43311]",
+    "echo_set": "어둠의 장막[43311]\n떠오르는 구름[43311]",
     "echo_builds": [
       {
         "tag": "43311",
@@ -1041,15 +1546,36 @@
     },
     "energy_cost": "",
     "notes": "로코코 등과 함께 사용 or 절지 대용으로 사용",
-    "video_url": "https://youtu.be/1ZgEWcHPEys?si=bogcRMXoJ4fqRa0N"
+    "video_url": "https://youtu.be/1ZgEWcHPEys?si=bogcRMXoJ4fqRa0N",
+    "teams": [
+      {
+        "name": "칸타렐라",
+        "members": [
+          "플로로",
+          "로코코"
+        ]
+      },
+      {
+        "name": "칸타렐라",
+        "members": [
+          "금희",
+          "갈브레나",
+          "파수인"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명스킬": 0.05,
+      "일반공격": 0.8
+    }
   },
   "플로로": {
     "name": "플로로",
-    "element": "",
+    "element": "인멸",
     "skill_priority": "공명해방, 일반공격, 공명회로, 변주스킬, 공명스킬 순서",
     "position": "인멸 협동 메인 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "잊혀진 피안의 슬픈 악장[전무]",
       "꼭두각시의 손[음림]",
@@ -1082,15 +1608,36 @@
     },
     "energy_cost": "",
     "notes": "로코코 칸타렐라와 함께 사용",
-    "video_url": "https://youtu.be/amIxrHfIaUg?si=ET2QYoGtL7xqf1WW"
+    "video_url": "https://youtu.be/amIxrHfIaUg?si=ET2QYoGtL7xqf1WW",
+    "teams": [
+      {
+        "name": "플로로1",
+        "members": [
+          "로코코",
+          "칸타렐라"
+        ]
+      },
+      {
+        "name": "플로로",
+        "members": [
+          "구원",
+          "루실라",
+          "파수인"
+        ]
+      }
+    ],
+    "type": "fuluoluo",
+    "dmg_contribution": {
+      "공명스킬": 0.72,
+      "일반공격": 0.06
+    }
   },
   "치사": {
     "name": "치사",
-    "element": "",
+    "element": "인멸",
     "skill_priority": "일반 공격, 공명 회로, 공명 해방 우선",
     "position": "인멸 힐러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "쿠모키리(曇斬)[전무]",
       "불길[루파]",
@@ -1122,7 +1669,30 @@
     },
     "energy_cost": "",
     "notes": "구원과 마찬가지로 2세트로 떠오르는 구름을 선택해서 공효 맞추는게 정신 건강에 좋음",
-    "video_url": "https://youtu.be/wyJLgO9pRhE?si=Wwwrm3BxVhR6m2cb"
+    "video_url": "https://youtu.be/wyJLgO9pRhE?si=Wwwrm3BxVhR6m2cb",
+    "teams": [
+      {
+        "name": "치사",
+        "members": [
+          "히유키",
+          "린네"
+        ]
+      },
+      {
+        "name": "치사2",
+        "members": [
+          "카르티시아",
+          "에이메스",
+          "린네"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.9,
+      "공명스킬": 0.04,
+      "일반공격": 0.03
+    }
   },
   "회절방랑자": {
     "name": "회절방랑자",
@@ -1130,7 +1700,6 @@
     "skill_priority": "공명 회로, 공명 해방 우선",
     "position": "회절 메인딜러 / 회절 서폿",
     "node_option": "회절피증",
-    "cycle": "",
     "weapons": [
       "천년의 회류",
       "솟아오르는 화염",
@@ -1162,15 +1731,30 @@
     },
     "energy_cost": "",
     "notes": "3체인에 공효 20퍼가 달려있어서 3체인 이상이면 공효 요구치가 낮아짐",
-    "video_url": "https://youtu.be/ODyqDyN_or8?si=gSLaxA7FdYNZY6Z-"
+    "video_url": "https://youtu.be/ODyqDyN_or8?si=gSLaxA7FdYNZY6Z-",
+    "teams": [
+      {
+        "name": "회절방랑자1",
+        "members": [
+          "젠니",
+          "페비"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.25,
+      "강공격": 0.07,
+      "공명스킬": 0.35,
+      "일반공격": 0.07
+    }
   },
   "금희": {
     "name": "금희",
-    "element": "",
+    "element": "회절",
     "skill_priority": "공명 회로, 공명 해방 우선",
     "position": "회절 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "태평성대[전무]",
       "푸른물결의 빛[상시]",
@@ -1215,15 +1799,35 @@
     },
     "energy_cost": "",
     "notes": "파티원에 협동 공격 캐릭터 추천 ex) 절지, 음림, 연무",
-    "video_url": "https://youtu.be/65IO4nf78x0?si=IXY4hZi59ra7sFIb"
+    "video_url": "https://youtu.be/65IO4nf78x0?si=IXY4hZi59ra7sFIb",
+    "teams": [
+      {
+        "name": "금희1",
+        "members": [
+          "절지",
+          "파수인"
+        ]
+      },
+      {
+        "name": "금희",
+        "members": [
+          "칸타렐라",
+          "복링"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.2,
+      "공명스킬": 0.75
+    }
   },
   "파수인": {
     "name": "파수인",
-    "element": "",
+    "element": "회절",
     "skill_priority": "스킬, 해방 우선[힐량]/회로, 변주 우선[딜량]",
     "position": "힐러",
     "node_option": "치료 효과 보너스",
-    "cycle": "",
     "weapons": [
       "뭇별의 교향곡[전무]",
       "판타지 변주",
@@ -1263,15 +1867,22 @@
     },
     "energy_cost": "",
     "notes": "1코스트는 체퍼 사용",
-    "video_url": "https://youtu.be/QWVIwPiiRx0?si=yFNuksZWHQna7nsS"
+    "video_url": "https://youtu.be/QWVIwPiiRx0?si=yFNuksZWHQna7nsS",
+    "teams": [],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.0,
+      "강공격": 0.0,
+      "공명스킬": 0.0,
+      "일반공격": 0.0
+    }
   },
   "페비": {
     "name": "페비",
-    "element": "",
+    "element": "회절",
     "skill_priority": "스킬, 회로, 해방 우선",
     "position": "광학 메인딜러",
     "node_option": "크리피해",
-    "cycle": "",
     "weapons": [
       "광휘의 찬송가[전무]",
       "꼭두각시의 손[음림]",
@@ -1304,15 +1915,36 @@
     },
     "energy_cost": "",
     "notes": "메인딜로 기용할시 서포터로 회랑자 채용",
-    "video_url": "https://youtu.be/EzYIOh9YB6Y?si=JOsJGIpKIqMf2HaA"
+    "video_url": "https://youtu.be/EzYIOh9YB6Y?si=JOsJGIpKIqMf2HaA",
+    "teams": [
+      {
+        "name": "페비1",
+        "members": [
+          "젠니",
+          "파수인"
+        ]
+      },
+      {
+        "name": "페비2",
+        "members": [
+          "젠니",
+          "회절방랑자"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.15,
+      "강공격": 0.5,
+      "일반공격": 0.15
+    }
   },
   "젠니": {
     "name": "젠니",
-    "element": "",
+    "element": "회절",
     "skill_priority": "스킬, 회로, 해방 우선",
     "position": "광학 메인딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "불빛의 심판[전무]",
       "희비극[로코코]",
@@ -1345,15 +1977,37 @@
     },
     "energy_cost": "",
     "notes": "2돌파 + 필드 편성시 크확 + 20% 페비와 함께 쓰는걸 추천\n없다면 아쉬운 대로 회랑자",
-    "video_url": "https://youtu.be/cTZJ_wmvr-A?si=DKl3vmb7BZyqxFMB"
+    "video_url": "https://youtu.be/cTZJ_wmvr-A?si=DKl3vmb7BZyqxFMB",
+    "teams": [
+      {
+        "name": "젠니1",
+        "members": [
+          "페비",
+          "파수인"
+        ]
+      },
+      {
+        "name": "젠니2",
+        "members": [
+          "페비",
+          "회절방랑자"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.13,
+      "강공격": 0.7,
+      "공명스킬": 0.04,
+      "일반공격": 0.04
+    }
   },
   "린네": {
     "name": "린네",
-    "element": "",
+    "element": "회절",
     "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
     "position": "회절 서브 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "스펙트럼 블래스터[전무]",
       "부동의 안개[상시]",
@@ -1385,15 +2039,36 @@
     },
     "energy_cost": "",
     "notes": "",
-    "video_url": "https://youtu.be/PkqiEd5QmD4?si=qVUL5hwCVqZi0zLW"
+    "video_url": "https://youtu.be/PkqiEd5QmD4?si=qVUL5hwCVqZi0zLW",
+    "teams": [
+      {
+        "name": "린네1",
+        "members": [
+          "에이메스",
+          "모니에"
+        ]
+      },
+      {
+        "name": "린네2",
+        "members": [
+          "히유키",
+          "치사"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.15,
+      "공명스킬": 0.1,
+      "일반공격": 0.6
+    }
   },
   "루크": {
     "name": "루크",
-    "element": "",
+    "element": "회절",
     "skill_priority": "일반 공격, 공명 스킬, 공명 해방 우선",
     "position": "메인 딜러",
     "node_option": "크리티컬",
-    "cycle": "",
     "weapons": [
       "한낮의 의지[전무]",
       "격동의 조력[신상시]",
@@ -1425,6 +2100,934 @@
     },
     "energy_cost": "",
     "notes": "메인 에코는 3코 트윈 노바 시리즈\n메인에코로 트윈 노바 · 콜라사르 블레이드 장착시\n트윈 노바 · 네뷸러스 캐논도 같이 장착해야\n회절 피해 보너스로 바뀌니 주의",
-    "video_url": "https://youtu.be/UmJoOJukAUc?si=re1z15eNXcFW-Usa"
+    "video_url": "https://youtu.be/UmJoOJukAUc?si=re1z15eNXcFW-Usa",
+    "teams": [
+      {
+        "name": "루크1",
+        "members": [
+          "데니아",
+          "린네",
+          "모니에"
+        ]
+      },
+      {
+        "name": "루크2",
+        "members": [
+          "산화",
+          "파수인"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "일반공격": 0.92
+    }
+  },
+  "벨리나": {
+    "name": "벨리나",
+    "element": "회절",
+    "skill_priority": "공명 회로, 공명 해방, 공명 스킬 우선",
+    "position": "힐러",
+    "node_option": "치료 효과",
+    "weapons": [
+      "판타지 변주[4성]",
+      "파도의 기록[상시]",
+      "심해의 메아리[제작or보상]"
+    ],
+    "echo_set": "찬란한 광휘[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "치유보너스or공격력",
+        "subs": [
+          "공효/공퍼",
+          "공효/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "ㅡ%",
+        "cd": "ㅡ%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "220",
+      "중간값": "1500~",
+      "중간_label": "공격력",
+      "에너지소모": "175"
+    },
+    "energy_cost": "",
+    "notes": "크크 신경쓰지말고 공효만 찍어주면 됨 공격력은 달성 못해도 괜찮음, 공효가 1순위",
+    "video_url": "https://youtu.be/JSRFcTDzxSE?si=gkV-ZpN4kwpcEN4I",
+    "teams": [],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.0,
+      "강공격": 0.0,
+      "공명스킬": 0.0,
+      "일반공격": 0.0
+    }
+  },
+  "감심": {
+    "name": "감심",
+    "element": "기류",
+    "skill_priority": "공명 회로, 공명 해방, 공명 스킬 우선",
+    "position": "서포터 겸 탱커",
+    "node_option": "크리티컬",
+    "weapons": [
+      "희비극[로코코]",
+      "물결의 파동[상시]",
+      "바람의 악센트[4성]"
+    ],
+    "echo_set": "스쳐가는 바람[43311] / 떠오르는 구름[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "크확or공퍼",
+        "subs": [
+          "공퍼/공퍼",
+          "기류피증or공퍼/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "ㅡ%",
+        "cd": "ㅡ%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "180",
+      "중간값": "—",
+      "중간_label": "공격력",
+      "에너지소모": "150"
+    },
+    "energy_cost": "",
+    "notes": "공격력 및 크크는 높을 수록 좋음, 서포터 및 빠른 협주용일시 구름셋에 무기 악센트 채용",
+    "video_url": "https://youtu.be/zXmet5jea-I?si=-HLeIN6l_Sh-Gjce",
+    "teams": [],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.35,
+      "강공격": 0.1,
+      "공명스킬": 0.08,
+      "일반공격": 0.3
+    }
+  },
+  "산화": {
+    "name": "산화",
+    "element": "응결",
+    "skill_priority": "공명 회로, 공명 해방, 공명 스킬 우선",
+    "position": "서포터, 빠른 협주",
+    "node_option": "응결피증",
+    "weapons": [
+      "천년의 회류[상시]",
+      "행진의 서곡[4성]"
+    ],
+    "echo_set": "떠오르는 구름[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "크확",
+        "subs": [
+          "응결피증 l 공퍼/공퍼",
+          "응결피증 l 공퍼/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "ㅡ%",
+        "cd": "ㅡ%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "120",
+      "중간값": "1600",
+      "중간_label": "공격력",
+      "에너지소모": "100"
+    },
+    "energy_cost": "",
+    "notes": "5돌 미만은 행진의 서곡으로 빠른협주 가능",
+    "video_url": "https://youtu.be/s5vbKDJpBgs?si=zlT2yw3XRGKALjwo",
+    "teams": [],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.3,
+      "강공격": 0.2,
+      "공명스킬": 0.3,
+      "일반공격": 0.0
+    }
+  },
+  "단근": {
+    "name": "단근",
+    "element": "인멸",
+    "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
+    "position": "인멸 서브 딜러",
+    "node_option": "인멸피증",
+    "weapons": [
+      "솟아오르는 화염[장리]",
+      "천년의 회류[상시]",
+      "천공의 광경[4성]"
+    ],
+    "echo_set": "빛을 삼키는 해[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "크확or크피",
+        "subs": [
+          "인멸피증/공퍼",
+          "인멸피증or공퍼/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "ㅡ%",
+        "cd": "ㅡ%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "120",
+      "중간값": "1900",
+      "중간_label": "공격력",
+      "에너지소모": "100"
+    },
+    "energy_cost": "",
+    "notes": "4코는 무기 크확크피 따라 반대로 (ex.회류면 크피)",
+    "video_url": "https://youtu.be/kTko9UHHw7E?si=bSNxGaz4p4nGT31f",
+    "teams": [],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.2,
+      "강공격": 0.3,
+      "공명스킬": 0.35,
+      "일반공격": 0.06
+    }
+  },
+  "모르테피": {
+    "name": "모르테피",
+    "element": "용융",
+    "skill_priority": "공명 회로, 공명 해방, 공명 스킬 우선",
+    "position": "용융 협동 서브 딜러",
+    "node_option": "용융피증",
+    "weapons": [
+      "부동의 안개[상시]",
+      "불멸의 성화[4성]",
+      "화려한 악곡[4성]"
+    ],
+    "echo_set": "하늘의 합주곡[43311] / 떠오르는 구름[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "크확",
+        "subs": [
+          "용융피증/공퍼",
+          "용융피증or공퍼/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "ㅡ%",
+        "cd": "ㅡ%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "140 / 150",
+      "중간값": "1700",
+      "중간_label": "공격력",
+      "에너지소모": "125"
+    },
+    "energy_cost": "",
+    "notes": "빠른협주 서포터로 채용시 구름셋에 악곡 사용",
+    "video_url": "https://youtu.be/g3U3Rj2z9k8?si=Bwvcm2uAfGn3EeJD",
+    "teams": [],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.65,
+      "강공격": 0.0,
+      "공명스킬": 0.1,
+      "일반공격": 0.1
+    }
+  },
+  "복링": {
+    "name": "복링",
+    "element": "전도",
+    "skill_priority": "공명 해방, 변주 회로, 일반 공격 우선",
+    "position": "힐러, 서포터",
+    "node_option": "치료 효과",
+    "weapons": [
+      "파도의 기록[상시]",
+      "판타지 변주[4성]"
+    ],
+    "echo_set": "찬란한 광휘[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "치유보너스or공퍼",
+        "subs": [
+          "공퍼ㅣ공효/공퍼",
+          "공퍼ㅣ공효/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "ㅡ%",
+        "cd": "ㅡ%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "165",
+      "중간값": "—",
+      "중간_label": "공격력",
+      "에너지소모": "150"
+    },
+    "energy_cost": "",
+    "notes": "변주 채용시 부옵 공효 1줄+4코 오류로 공효컷 쌀먹가능, 아니면 3코 공효 섞으면 됨",
+    "video_url": "",
+    "teams": [],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.0,
+      "강공격": 0.0,
+      "공명스킬": 0.0,
+      "일반공격": 0.0
+    }
+  },
+  "도기": {
+    "name": "도기",
+    "element": "인멸",
+    "skill_priority": "공명 회로, 공명 스킬, 기본 공격 우선",
+    "position": "탱커",
+    "node_option": "인멸피증",
+    "weapons": [
+      "장야의 불빛[전무]",
+      "기묘한 울림[4성]"
+    ],
+    "echo_set": "빛을 삼키는 해[43311] / 떠오르는 구름[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "방퍼",
+        "subs": [
+          "방퍼 l 공효/방퍼",
+          "방퍼 l 공효/방퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "ㅡ%",
+        "cd": "ㅡ%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "150~@",
+      "중간값": "4000",
+      "중간_label": "방어력",
+      "에너지소모": "125"
+    },
+    "energy_cost": "",
+    "notes": "공효가 높을 수록 궁게이지 수급에 원활, 서포터면 구름채용 어지간하면 다른 캐릭터 키우는걸 추천\n5돌 이상이면 구름+무기로 공효컷 달성",
+    "video_url": "https://youtu.be/HXA28RJKo_U?si=Gct7RhL79aaW975K",
+    "teams": [],
+    "type": "defense",
+    "dmg_contribution": {
+      "공명해방": 0.25,
+      "강공격": 0.0,
+      "공명스킬": 0.6,
+      "일반공격": 0.0
+    }
+  },
+  "설지": {
+    "name": "설지",
+    "element": "응결",
+    "skill_priority": "공명 회로, 공명 해방, 공명 스킬 우선",
+    "position": "힐러",
+    "node_option": "치료 효과",
+    "weapons": [
+      "뭇별의 교향곡[파수인]",
+      "판타지 변주[4성]"
+    ],
+    "echo_set": "찬란한 광휘[43311] / 떠오르는 구름[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "치유보너스",
+        "subs": [
+          "공효/체퍼",
+          "공효/체퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "ㅡ%",
+        "cd": "ㅡ%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "220",
+      "중간값": "30000",
+      "중간_label": "체력",
+      "에너지소모": "175"
+    },
+    "energy_cost": "",
+    "notes": "공효컷 최우선 높을수록 안정적, 낮으면 한사이클에 해방이 안 참",
+    "video_url": "https://youtu.be/YKPmK93fYRM?si=MsNuJmOkxJdpCd9G",
+    "teams": [],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.0,
+      "강공격": 0.0,
+      "공명스킬": 0.0,
+      "일반공격": 0.0
+    }
+  },
+  "양양": {
+    "name": "양양",
+    "element": "기류",
+    "skill_priority": "공명 회로, 공명 해방, 공명 스킬 우선",
+    "position": "기류 서브 딜러, 공명 에너지 회복",
+    "node_option": "기류피증",
+    "weapons": [
+      "천년의 회류[상시]",
+      "행진의 서곡[4성]"
+    ],
+    "echo_set": "떠오르는 구름[43311] / 끝없는 하늘[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "크확",
+        "subs": [
+          "기류피증/공퍼",
+          "기류피증or공퍼/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "ㅡ%",
+        "cd": "ㅡ%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "130",
+      "중간값": "1800",
+      "중간_label": "공격력",
+      "에너지소모": "100"
+    },
+    "energy_cost": "",
+    "notes": "유일한 궁통 채워주는 서포터 겸 섭딜러",
+    "video_url": "",
+    "teams": [],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.4,
+      "강공격": 0.0,
+      "공명스킬": 0.12,
+      "일반공격": 0.3
+    }
+  },
+  "연무": {
+    "name": "연무",
+    "element": "전도",
+    "skill_priority": "공명 회로, 공명 스킬, 공명 해방 우선",
+    "position": "전도 협동 서브 딜러",
+    "node_option": "전도피증",
+    "weapons": [
+      "물결의 파동[상시]",
+      "황금 권갑[패스]",
+      "전우의 의리[4성]",
+      "원능의 견갑 · 견습IV [3성]"
+    ],
+    "echo_set": "떠오르는 구름[43311] / 하늘의 합주곡[43311] / 찬란한 광휘[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "크확",
+        "subs": [
+          "공효/공퍼",
+          "공효/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "ㅡ%",
+        "cd": "ㅡ%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "110+@",
+      "중간값": "3000",
+      "중간_label": "방어력",
+      "에너지소모": "125"
+    },
+    "energy_cost": "",
+    "notes": "빌드따라 다름, 구름or합주곡일시 공효 높어서 일반 서브딜러처럼 활용\n광휘일시 광휘 발동만 시키고 넘겨도 무방",
+    "video_url": "https://youtu.be/tJjsNFRsG7U?si=MLtRytzJCs0Epgr6",
+    "teams": [],
+    "type": "defense",
+    "dmg_contribution": {
+      "공명해방": 0.4,
+      "강공격": 0.0,
+      "공명스킬": 0.5,
+      "일반공격": 0.0
+    }
+  },
+  "유호": {
+    "name": "유호",
+    "element": "응결",
+    "skill_priority": "공명 회로, 공명 스킬, 공명 해방 우선",
+    "position": "서브 딜러 겸 힐러+협동피증",
+    "node_option": "크리티컬",
+    "weapons": [
+      "팔발의 천추[상리요]",
+      "물결의 파동[상시]",
+      "바람의 악센트[4성]",
+      "황금 권갑[패스]"
+    ],
+    "echo_set": "찬란한 광휘[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "치유보너스",
+        "subs": [
+          "응결피증/공퍼",
+          "응결피증/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "ㅡ%",
+        "cd": "ㅡ%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "130",
+      "중간값": "—",
+      "중간_label": "공격력",
+      "에너지소모": "100"
+    },
+    "energy_cost": "",
+    "notes": "협동 공격 버프 28초간 100% 부스트, 서포터로 사용시 악센트 채용",
+    "video_url": "https://youtu.be/V0jeSFeRONg?si=U7UDATdOqEvf6woN",
+    "teams": [],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.0,
+      "강공격": 0.0,
+      "공명스킬": 0.0,
+      "일반공격": 0.0
+    }
+  },
+  "알토": {
+    "name": "알토",
+    "element": "기류",
+    "skill_priority": "공명 회로, 공명 스킬, 공명 해방 우선",
+    "position": "기류 서포터",
+    "node_option": "기류피증",
+    "weapons": [
+      "부동의 안개[상시]",
+      "천공의 순간[4성]",
+      "화려한 악곡[4성]"
+    ],
+    "echo_set": "스쳐가는 바람[43311] / 떠오르는 구름[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "크확",
+        "subs": [
+          "기류피증/공퍼",
+          "기류피증or공퍼/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "ㅡ%",
+        "cd": "ㅡ%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "150",
+      "중간값": "ㅡ",
+      "중간_label": "공격력",
+      "에너지소모": "150"
+    },
+    "energy_cost": "",
+    "notes": "메인딜러 아닐시 구름+악곡 채용",
+    "video_url": "https://youtu.be/Hlyh9l4Ojt0?si=aTgbOYFePHVLPucq",
+    "teams": [],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.1,
+      "강공격": 0.0,
+      "공명스킬": 0.3,
+      "일반공격": 0.4
+    }
+  },
+  "루미": {
+    "name": "루미",
+    "element": "전도",
+    "skill_priority": "공명 회로, 일반 공격, 공명 해방 우선",
+    "position": "전도 메인 딜러",
+    "node_option": "크리티컬",
+    "weapons": [
+      "푸른 물결의 빛[상시]",
+      "가을의 무늬[패스]",
+      "기묘한 울림[4성]"
+    ],
+    "echo_set": "울려퍼지는 뇌음[43311] / 떠오르는 구름[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "크확",
+        "subs": [
+          "전도피증/공퍼",
+          "전도피증or공퍼/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "60%",
+        "cd": "200%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "110",
+      "중간값": "2000",
+      "중간_label": "공격력",
+      "에너지소모": "125"
+    },
+    "energy_cost": "",
+    "notes": "안전하게 딜링 가능한 메인딜러, 모든 피해판정이 거의 일반 공격 판정, 숙련도 높을수록 포텐셜 향상",
+    "video_url": "https://youtu.be/1Fk9G8vrOuY?si=jaaQY4Sr-IEX-RZQ",
+    "teams": [],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.25,
+      "강공격": 0.0,
+      "공명스킬": 0.0,
+      "일반공격": 0.6
+    }
+  },
+  "치샤": {
+    "name": "치샤",
+    "element": "용융",
+    "skill_priority": "공명 회로, 공명 해방, 공명 스킬 우선",
+    "position": "용융 메인 딜러",
+    "node_option": "용융피증",
+    "weapons": [
+      "죽음과 춤[카를로타]",
+      "부동의 안개[상시]",
+      "뇌전[패스]"
+    ],
+    "echo_set": "솟구치는 용암[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "크확,크피",
+        "subs": [
+          "용융피증/공퍼",
+          "용융피증or공퍼/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "65%",
+        "cd": "250%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "145",
+      "중간값": "1800",
+      "중간_label": "공격력",
+      "에너지소모": "150"
+    },
+    "energy_cost": "",
+    "notes": "사이클이 조금 느림, 공효 높을수록 좋음",
+    "video_url": "https://youtu.be/fi-NVCnN0nU?si=nIqz9QogNEaKQFVp",
+    "teams": [],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.3,
+      "강공격": 0.0,
+      "공명스킬": 0.5,
+      "일반공격": 0.0
+    }
+  },
+  "데니아": {
+    "name": "데니아",
+    "element": "용융",
+    "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
+    "position": "용융 서브딜러",
+    "node_option": "크리피해",
+    "weapons": [
+      "위조된 작은 별[전무]",
+      "꼭두각시의 손[음림]",
+      "잊혀진 피안의 슬픈 악장[플로로]",
+      "청음[4성]"
+    ],
+    "echo_set": "오색찬란한 거품[43311]\n마음을 엮은 꿈의 그림자[43311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "크확,크피",
+        "subs": [
+          "속성피증/공퍼",
+          "속성피증or공퍼/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "75%[4코크리100%]",
+        "cd": "275%[4코크리225%]"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "120~125",
+      "중간값": "2300[2600공공]",
+      "중간_label": "공격력",
+      "에너지소모": "125"
+    },
+    "energy_cost": "",
+    "notes": "루크랑 채용시 공효 좀 더 높은게 좋음, 그림자셋 사용시 4코는 보이드모스, 2돌이상은 공공",
+    "video_url": "https://youtu.be/UytI3-VNbns?si=gNNJ5Jud0RWjAIff",
+    "teams": [
+      {
+        "name": "데니아1",
+        "members": [
+          "에이메스",
+          "치사"
+        ]
+      },
+      {
+        "name": "데니아2",
+        "members": [
+          "루크",
+          "모니에"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명해방": 0.86,
+      "공명스킬": 0.03,
+      "일반공격": 0.03
+    }
+  },
+  "루시": {
+    "name": "루시",
+    "element": "회절",
+    "skill_priority": "기본 공격, 공명 회로, 공명 해방 우선",
+    "position": "회절 메인딜러",
+    "node_option": "크리티컬",
+    "cycle": "",
+    "weapons": [
+      "스펙트럴 트리거[전무]",
+      "위상의 파동[신상시]",
+      "스컬 스래셔[레베카]",
+      "태양 불꽃[패스]"
+    ],
+    "echo_set": "꿈을 깨뜨리는 망령의 악몽[4]\n빛나는 별/흐르는 금빛 속 진리의 답/영원의 광채[2셋3311]\n끊임없는 잔향/마음을 엮은 꿈의 그림자[2셋3311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "크리티컬",
+        "subs": [
+          "회절피증/공퍼",
+          "회절피증or공퍼/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "70%[85%에코]",
+        "cd": "265%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "125~130",
+      "중간값": "2200[속속]2500[속공]",
+      "중간_label": "공격력",
+      "에너지소모": "125"
+    },
+    "energy_cost": "",
+    "notes": "2셋 속공 속속 큰 차이 없음",
+    "video_url": "https://youtu.be/KWjUGIxpzJA?si=ss3UzEFBBupYqzYT",
+    "teams": [
+      {
+        "name": "루시1",
+        "members": [
+          "레베카",
+          "파수인",
+          "모니에"
+        ]
+      },
+      {
+        "name": "루시2",
+        "members": [
+          "레베카",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "강공격": 0.75,
+      "공명스킬": 0.03,
+      "일반공격": 0.03
+    }
+  },
+  "레베카": {
+    "name": "레베카",
+    "element": "전도",
+    "skill_priority": "일반 공격, 공명 회로, 공명 회로 우선",
+    "position": "전도 서브딜러[루시전용]",
+    "node_option": "크리티컬",
+    "cycle": "",
+    "weapons": [
+      "스컬 스래셔[전무]",
+      "부동의 안개[구상시]",
+      "위상의 파동[신상시]",
+      "태양 불꽃[패스]"
+    ],
+    "echo_set": "꿈을 깨뜨리는 망령의 악몽[4]\n마음을 엮은 꿈의 그림자/울려퍼지는 뇌음/끊임없는 잔향[2셋3311]",
+    "echo_builds": [
+      {
+        "tag": "43311",
+        "main": "크리티컬",
+        "subs": [
+          "전도피증/공퍼",
+          "전도피증or공퍼/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "43311",
+        "cr": "70[85%에코]",
+        "cd": "285%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "125~130",
+      "중간값": "2100[속속]2300[속공]",
+      "중간_label": "공격력",
+      "에너지소모": "125"
+    },
+    "energy_cost": "",
+    "notes": "반주가 강공 부스트이긴 한데 루시 제외 시간에따라 증가하는 버프라 루시 말곤 효용성이 낮음, 2셋 속공 큰 차이 없음",
+    "video_url": "https://youtu.be/A2wh2dmKSwM?si=mVRSaqyU4mt8hXy1",
+    "teams": [
+      {
+        "name": "레베카1",
+        "members": [
+          "루시",
+          "파수인",
+          "모니에"
+        ]
+      },
+      {
+        "name": "레베카2",
+        "members": [
+          "루시",
+          "벨리나"
+        ]
+      }
+    ],
+    "type": "attack",
+    "dmg_contribution": {
+      "공명스킬": 0.05,
+      "일반공격": 0.6
+    }
+  },
+  "루실라": {
+    "name": "루실라",
+    "element": "응결",
+    "skill_priority": "공명 스킬, 공명 회로, 공명 해방 우선",
+    "position": "응결 서브딜러",
+    "node_option": "크리티컬",
+    "cycle": "",
+    "weapons": [
+      "프리즈 프레임[전무]",
+      "꼭두각시의 손[음림]",
+      "옥수비단[절지]",
+      "청음[4성]"
+    ],
+    "echo_set": "소리없이 내려앉은 기도의 눈[34311]\n떠오르는 구름[43311]",
+    "echo_builds": [
+      {
+        "tag": "34311",
+        "main": "크피",
+        "subs": [
+          "응결피증/공퍼",
+          "응결피증or공퍼/공퍼"
+        ]
+      }
+    ],
+    "crit_stats": [
+      {
+        "tag": "34311",
+        "cr": "75%",
+        "cd": "265%"
+      }
+    ],
+    "res_stats": {
+      "공명효율": "0",
+      "중간값": "2100[속속]2400[속공]",
+      "중간_label": "공격력",
+      "에너지소모": "0"
+    },
+    "energy_cost": "",
+    "notes": "시그리카,갈브레나는 에코모드 일때 메인딜러로 기용, 서리모드 기도셋 메인 에코는 글로모스",
+    "video_url": "https://youtu.be/bY-5PuGqjn0?si=rkQ8zfYw_tTZQcNS",
+    "teams": [
+      {
+        "name": "루실라1",
+        "members": [
+          "히유키",
+          "치사"
+        ]
+      },
+      {
+        "name": "루실라2",
+        "members": [
+          "시그리카",
+          "갈브레나",
+          "파수인"
+        ]
+      }
+    ],
+    "type": "fuluoluo",
+    "dmg_contribution": {
+      "공명스킬": 0.07,
+      "일반공격": 0.7
+    }
   }
 }
