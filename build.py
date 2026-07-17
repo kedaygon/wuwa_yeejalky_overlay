@@ -24,7 +24,7 @@ def main():
 
     print("[빌드] 빌드 시작...")
 
-    icon_file = os.path.join(base, "00085-3009505209.ico")
+    icon_file = os.path.join(base, "app.ico")
 
     cmd = [
         sys.executable, "-m", "PyInstaller",

@@ -158,7 +158,7 @@ class UpdateDialog(tk.Toplevel):
         self.attributes("-topmost", True)
         self.resizable(False, False)
         try:
-            icon = get_resource("00085-3009505209.ico")
+            icon = get_resource("app.ico")
             if os.path.exists(icon):
                 self.iconbitmap(icon)
         except Exception:

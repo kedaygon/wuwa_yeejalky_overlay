@@ -55,7 +55,7 @@ def get_data_file():
     return appdata_json
 
 DATA_FILE = get_data_file()
-ICON_FILE  = get_resource("00085-3009505209.ico")
+ICON_FILE  = get_resource("app.ico")
 
 def _cleanup_ocr_zips():
     import glob
@@ -132,6 +132,12 @@ def save_settings(settings: dict):
             json.dump(settings, f, ensure_ascii=False)
     except Exception:
         pass
+
+# settings.json 중 PC/설치본에 안전하게 옮겨도 되는 키만 백업 대상으로 삼음.
+# 제외: last_version (업데이트 체크용, 옮기면 새 버전 알림이 안 뜰 수 있음)
+#       roi (에코 캡처 좌표, 모니터 해상도가 다르면 그대로 못 씀)
+#       theme (다른 PC에서 원치 않게 테마가 바뀌는 걸 방지하려고 백업 대상에서 제외)
+PORTABLE_SETTINGS_KEYS = ["favorites", "cycles"]
 
 _settings = load_settings()
 C = THEMES.get(_settings.get("theme", "default"), THEMES["default"])
@@ -295,6 +301,63 @@ def load_chars() -> dict:
 def save_chars(chars: dict):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(chars, f, ensure_ascii=False, indent=2)
+
+
+# ── 에코 점수 계산 내역 / 랭크 ──────────────────────────────────────────
+
+GRADE_THRESHOLDS = [
+    (75, "SS", "#ff4444"),
+    (60, "S",  C["gold_lt"]),
+    (50, "A",  "#4caf50"),
+    (30, "B",  "#2196f3"),
+    (20, "C",  C["dim"]),
+]
+
+def grade_of(score):
+    for th, g, col in GRADE_THRESHOLDS:
+        if score >= th:
+            return g, col
+    return "D", C["dim"]
+
+def get_history_file():
+    return os.path.join(get_appdata_dir(), "echo_history.json")
+
+def load_echo_history() -> dict:
+    try:
+        path = get_history_file()
+        if os.path.exists(path):
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+    except Exception as e:
+        print(f"[계산내역 로드 오류] {e}")
+    return {}
+
+def save_echo_history(hist: dict):
+    try:
+        with open(get_history_file(), "w", encoding="utf-8") as f:
+            json.dump(hist, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"[계산내역 저장 오류] {e}")
+
+def record_echo_calc(char_name: str, total: float, grade: str):
+    """전체 5개 에코가 채워진 계산 결과를 캐릭터별 내역에 기록 (최대 30개 보관)"""
+    import datetime
+    hist = load_echo_history()
+    entries = hist.get(char_name, [])
+    entries.insert(0, {
+        "score": total,
+        "grade": grade,
+        "ts": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
+    })
+    hist[char_name] = entries[:30]
+    save_echo_history(hist)
+
+def get_best_record(char_name: str):
+    hist = load_echo_history()
+    entries = hist.get(char_name, [])
+    if not entries:
+        return None
+    return max(entries, key=lambda e: e.get("score", 0))
 
 
 
@@ -494,6 +557,17 @@ class CharCard(tk.Toplevel):
             except Exception:
                 pass
 
+    def _refresh_rank_label(self):
+        try:
+            best = get_best_record(self.char["name"])
+            if best:
+                self._rank_label.configure(
+                    text=f"최고 {best['grade']}  {best['score']:.1f}")
+            else:
+                self._rank_label.configure(text="계산 내역 없음")
+        except Exception:
+            pass
+
     def _on_scroll(self, *args):
         self._sb.set(*args)
 
@@ -535,6 +609,12 @@ class CharCard(tk.Toplevel):
         tk.Label(badge, text=self.char["name"],
                  font=("맑은 고딕", 13, "bold"), fg=C["bg"], bg=ec,
                  padx=14, pady=10).pack(fill="both", expand=True)
+
+        self._rank_badge_frame = badge
+        self._rank_label = tk.Label(badge, text="", font=("맑은 고딕", 8, "bold"),
+                                     fg=C["bg"], bg=ec, pady=(0))
+        self._rank_label.pack(fill="x", pady=(0, 4))
+        self._refresh_rank_label()
 
         sf = tk.Frame(row, bg=C["hd"])
         sf.pack(side="left", fill="both", expand=True)
@@ -1154,6 +1234,7 @@ class CharCard(tk.Toplevel):
         _ocr_captures = []
         _ocr_active = [False]
         _popup_open = [False]
+        _last_result = {"total": None, "grade": None, "n": 0}
 
         top_frame = tk.Frame(win, bg=C["bg"])
         top_frame.pack(fill="x", padx=12, pady=(8,4))
@@ -1825,15 +1906,13 @@ class CharCard(tk.Toplevel):
                     return
 
                 total, excess = calc_total(filled_scores, total_reso, max_reso)
-
-                if total >= 75:   grade, color = "SS", "#ff4444"
-                elif total >= 60: grade, color = "S",  C["gold_lt"]
-                elif total >= 50: grade, color = "A",  "#4caf50"
-                elif total >= 30: grade, color = "B",  "#2196f3"
-                elif total >= 20: grade, color = "C",  C["dim"]
-                else:             grade, color = "D",  C["dim"]
+                grade, color = grade_of(total)
 
                 n = len(filled_scores)
+                _last_result["total"] = total
+                _last_result["grade"] = grade
+                _last_result["n"] = n
+
                 total_label.configure(
                     text=f"총점: {total:.2f}  [{grade}]  ({n}/5 에코)",
                     fg=color)
@@ -1845,6 +1924,27 @@ class CharCard(tk.Toplevel):
 
         def calc_score():
             _update_scores()
+            total = _last_result.get("total")
+            n = _last_result.get("n", 0)
+            if total is not None and n >= 5:
+                prev_best = get_best_record(char["name"])
+                record_echo_calc(char["name"], total, _last_result["grade"])
+                try:
+                    self._refresh_rank_label()
+                except Exception:
+                    pass
+                if prev_best:
+                    delta = total - prev_best["score"]
+                    if delta > 0:
+                        ocr_status.configure(text=f"✔ 저장됨  (이전 최고 대비 +{delta:.2f})", fg=C["gold_lt"])
+                    elif delta < 0:
+                        ocr_status.configure(text=f"✔ 저장됨  (이전 최고 대비 {delta:.2f})", fg=C["dim"])
+                    else:
+                        ocr_status.configure(text="✔ 저장됨  (이전 최고와 동일)", fg=C["dim"])
+                else:
+                    ocr_status.configure(text="✔ 계산 내역에 저장됨 (첫 기록)", fg=C["gold_lt"])
+            elif total is not None:
+                ocr_status.configure(text=f"※ 5개 에코를 모두 채우면 계산 내역에 저장됩니다 ({n}/5)", fg=C["dim"])
 
         def reset_all():
             _ocr_active[0] = False
@@ -1861,6 +1961,9 @@ class CharCard(tk.Toplevel):
             grade_label.configure(text="")
             ocr_status.configure(text="")
             _ocr_captures.clear()
+            _last_result["total"] = None
+            _last_result["grade"] = None
+            _last_result["n"] = 0
             refresh_options()
             _update_scores()
 
@@ -1912,6 +2015,7 @@ class MainPanel:
         self._dropdown = None
         self._dd_items: list = []
         self._dd_index: int = -1
+        self._dd_rows: list = []
         self._last_query: str = ""
         self._favorites: list = _settings.get("favorites", [])
         self._search_history: list = []
@@ -2014,10 +2118,19 @@ class MainPanel:
             font=("맑은 고딕", 8), fg=C["dim"], bg=C["bg"],
             anchor="e").pack(side="right")
 
-        help_btn = tk.Label(self._bottom, text="[어케씀?]",
+        btn_col = tk.Frame(self._bottom, bg=C["bg"])
+        btn_col.pack(side="right", padx=6)
+
+        etc_btn = tk.Label(btn_col, text="[etc]",
+                            font=("맑은 고딕", 8, "bold"), fg=C["dim"], bg=C["bg"],
+                            cursor="hand2", anchor="e")
+        etc_btn.pack(fill="x")
+        etc_btn.bind("<Button-1>", lambda e: self._show_etc())
+
+        help_btn = tk.Label(btn_col, text="[어케씀?]",
                             font=("맑은 고딕", 8, "bold"), fg=C["gold_lt"], bg=C["bg"],
-                            cursor="hand2")
-        help_btn.pack(side="right", padx=6)
+                            cursor="hand2", anchor="e")
+        help_btn.pack(fill="x")
         help_btn.bind("<Button-1>", lambda e: self._show_help())
 
     def _show_help(self):
@@ -2104,6 +2217,258 @@ class MainPanel:
         win.update_idletasks()
         _place_on_cursor_monitor(win, 380, win.winfo_reqheight())
 
+    def _show_etc(self):
+        win = tk.Toplevel(self.root)
+        win.title("기타")
+        win.configure(bg=C["bg"])
+        win.attributes("-topmost", True)
+        win.resizable(False, False)
+        try:
+            if os.path.exists(ICON_FILE):
+                win.iconbitmap(ICON_FILE)
+        except Exception:
+            pass
+
+        tk.Label(win, text="⚡  기타",
+                 font=("맑은 고딕", 11, "bold"), fg=C["gold_lt"], bg=C["tbl_hd"],
+                 padx=12, pady=8, anchor="w").pack(fill="x")
+        tk.Frame(win, bg=C["border"], height=1).pack(fill="x")
+
+        body = tk.Frame(win, bg=C["bg"])
+        body.pack(fill="both", expand=True, padx=12, pady=10)
+
+        def _item(text, cmd):
+            btn = tk.Label(body, text=text,
+                            font=("맑은 고딕", 10), fg=C["text"], bg=C["tbl_hd"],
+                            padx=12, pady=8, anchor="w", cursor="hand2")
+            btn.pack(fill="x", pady=(0, 6))
+            btn.bind("<Enter>", lambda e: btn.configure(bg=C["gold_dim"], fg=C["white"]))
+            btn.bind("<Leave>", lambda e: btn.configure(bg=C["tbl_hd"], fg=C["text"]))
+            def _run():
+                win.destroy()
+                cmd()
+            btn.bind("<Button-1>", lambda e: _run())
+
+        _item("🏆  캐릭터 랭크 요약", self._show_rank_dashboard)
+        _item("💾  계산 내역 백업 / 복원", self._show_backup_dialog)
+        tk.Frame(body, bg=C["border"], height=1).pack(fill="x", pady=(2, 8))
+        _item("💬  문의 및 버그제보", self._open_contact_link)
+
+        tk.Button(win, text="닫기",
+                  font=("맑은 고딕", 9), fg=C["text"], bg=C["tbl_hd"],
+                  relief="flat", command=win.destroy).pack(pady=(0, 10), ipadx=16, ipady=4)
+
+        win.update_idletasks()
+        _place_on_cursor_monitor(win, 260, win.winfo_reqheight())
+
+    def _open_contact_link(self):
+        import webbrowser
+        webbrowser.open("https://open.kakao.com/o/syye1aCi")
+
+    def _show_rank_dashboard(self):
+        win = tk.Toplevel(self.root)
+        win.title("캐릭터 랭크 요약")
+        win.configure(bg=C["bg"])
+        win.attributes("-topmost", True)
+        win.resizable(False, False)
+        try:
+            if os.path.exists(ICON_FILE):
+                win.iconbitmap(ICON_FILE)
+        except Exception:
+            pass
+
+        tk.Label(win, text="🏆  캐릭터 랭크 요약",
+                 font=("맑은 고딕", 11, "bold"), fg=C["gold_lt"], bg=C["tbl_hd"],
+                 padx=12, pady=8, anchor="w").pack(fill="x")
+        tk.Frame(win, bg=C["border"], height=1).pack(fill="x")
+
+        hist = load_echo_history()
+        rows = []
+        for name in self.chars.keys():
+            best = get_best_record(name)
+            if best:
+                rows.append((name, best["score"], best["grade"], best.get("ts", "")))
+        rows.sort(key=lambda r: r[1], reverse=True)
+
+        body = tk.Frame(win, bg=C["bg"])
+        body.pack(fill="both", expand=True, padx=4, pady=4)
+
+        if not rows:
+            tk.Label(body, text="아직 계산 내역이 없습니다.\n에코 점수 계산에서 5개 에코를 채우고 계산해보세요.",
+                      font=("맑은 고딕", 9), fg=C["dim"], bg=C["bg"],
+                      padx=16, pady=20, justify="left").pack()
+        else:
+            canvas = tk.Canvas(body, bg=C["bg"], highlightthickness=0, width=340,
+                                height=min(420, 34 * len(rows) + 4))
+            sb = tk.Scrollbar(body, orient="vertical", command=canvas.yview)
+            inner = tk.Frame(canvas, bg=C["bg"])
+            canvas.create_window((0, 0), window=inner, anchor="nw")
+            canvas.configure(yscrollcommand=sb.set)
+            canvas.pack(side="left", fill="both", expand=True)
+            sb.pack(side="right", fill="y")
+
+            for i, (name, score, grade, ts) in enumerate(rows):
+                _, col = grade_of(score)
+                bg = C["tbl"] if i % 2 == 0 else C["tbl2"]
+                r = tk.Frame(inner, bg=bg)
+                r.pack(fill="x")
+                tk.Label(r, text=f"{i+1}.", font=("맑은 고딕", 9), fg=C["dim"], bg=bg,
+                          width=3, anchor="e").pack(side="left", padx=(6, 2), pady=6)
+                nl = tk.Label(r, text=name, font=("맑은 고딕", 10, "bold"), fg=C["text"], bg=bg,
+                               anchor="w", cursor="hand2")
+                nl.pack(side="left", fill="x", expand=True, pady=6)
+                nl.bind("<Button-1>", lambda e, n=name: (win.destroy(), self._select_item(n)))
+                tk.Label(r, text=ts, font=("맑은 고딕", 7), fg=C["dim"], bg=bg).pack(side="left", padx=(0, 8))
+                tk.Label(r, text=f"{grade} {score:.1f}", font=("맑은 고딕", 9, "bold"),
+                          fg=col, bg=bg, width=8, anchor="e", padx=8).pack(side="left")
+
+            inner.update_idletasks()
+            canvas.configure(scrollregion=canvas.bbox("all"))
+
+        tk.Frame(win, bg=C["border"], height=1).pack(fill="x")
+        tk.Button(win, text="닫기",
+                  font=("맑은 고딕", 9, "bold"), fg=C["bg"], bg=C["gold_lt"],
+                  relief="flat", command=win.destroy).pack(pady=8, ipadx=16, ipady=4)
+
+        win.update_idletasks()
+        _place_on_cursor_monitor(win, 360, win.winfo_reqheight())
+
+    def _show_backup_dialog(self):
+        win = tk.Toplevel(self.root)
+        win.title("데이터 백업")
+        win.configure(bg=C["bg"])
+        win.attributes("-topmost", True)
+        win.resizable(False, False)
+        try:
+            if os.path.exists(ICON_FILE):
+                win.iconbitmap(ICON_FILE)
+        except Exception:
+            pass
+
+        tk.Label(win, text="💾  데이터 백업 / 복원",
+                 font=("맑은 고딕", 11, "bold"), fg=C["gold_lt"], bg=C["tbl_hd"],
+                 padx=12, pady=8, anchor="w").pack(fill="x")
+        tk.Frame(win, bg=C["border"], height=1).pack(fill="x")
+
+        body = tk.Frame(win, bg=C["bg"])
+        body.pack(fill="both", expand=True, padx=14, pady=12)
+
+        hist = load_echo_history()
+        n_chars = len(hist)
+        n_records = sum(len(v) for v in hist.values())
+        n_fav = len(_settings.get("favorites", []))
+        n_cyc = len(_settings.get("cycles", {}))
+        tk.Label(body,
+                 text=(f"계산 내역: {n_chars}명 / 총 {n_records}건\n"
+                       f"즐겨찾기: {n_fav}명   사이클 메모: {n_cyc}개"),
+                 font=("맑은 고딕", 9), fg=C["text"], bg=C["bg"],
+                 anchor="w", justify="left").pack(fill="x", pady=(0, 4))
+        tk.Label(body,
+                 text="※ 캡처 좌표(ROI), 업데이트 확인 기록, 테마 설정은\n"
+                      "   PC/설치본마다 달라서 백업 대상에서 제외됩니다.",
+                 font=("맑은 고딕", 8), fg=C["dim"], bg=C["bg"],
+                 anchor="w", justify="left").pack(fill="x", pady=(0, 10))
+
+        status = tk.Label(body, text="", font=("맑은 고딕", 8), fg=C["dim"], bg=C["bg"], anchor="w")
+
+        def do_export():
+            from tkinter import filedialog
+            path = filedialog.asksaveasfilename(
+                title="데이터 내보내기",
+                defaultextension=".json",
+                initialfile="ddaljalky_backup.json",
+                filetypes=[("JSON 파일", "*.json")])
+            if not path:
+                return
+            try:
+                bundle = {
+                    "echo_history": load_echo_history(),
+                    "settings": {k: _settings[k] for k in PORTABLE_SETTINGS_KEYS if k in _settings},
+                }
+                with open(path, "w", encoding="utf-8") as f:
+                    json.dump(bundle, f, ensure_ascii=False, indent=2)
+                status.configure(text=f"✔ 내보내기 완료: {os.path.basename(path)}", fg=C["gold_lt"])
+            except Exception as e:
+                status.configure(text=f"내보내기 실패: {e}", fg=C["red"])
+
+        def do_import():
+            from tkinter import filedialog
+            path = filedialog.askopenfilename(
+                title="데이터 가져오기",
+                filetypes=[("JSON 파일", "*.json")])
+            if not path:
+                return
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    loaded = json.load(f)
+                if not isinstance(loaded, dict):
+                    raise ValueError("형식이 올바르지 않습니다")
+
+                # 구버전 백업(계산 내역만 있던 파일)과 신버전 번들 둘 다 지원
+                if "echo_history" in loaded or "settings" in loaded:
+                    imported_hist = loaded.get("echo_history", {})
+                    imported_settings = loaded.get("settings", {})
+                else:
+                    imported_hist = loaded
+                    imported_settings = {}
+
+                current = load_echo_history()
+                for name, entries in imported_hist.items():
+                    merged = current.get(name, []) + entries
+                    seen = set()
+                    dedup = []
+                    for e in merged:
+                        key = (e.get("score"), e.get("ts"))
+                        if key not in seen:
+                            seen.add(key)
+                            dedup.append(e)
+                    dedup.sort(key=lambda e: e.get("score", 0), reverse=True)
+                    current[name] = dedup[:30]
+                save_echo_history(current)
+
+                fav_added = cyc_added = 0
+                if imported_settings:
+                    favs = _settings.get("favorites", [])
+                    for name in imported_settings.get("favorites", []):
+                        if name not in favs and len(favs) < 3:
+                            favs.append(name)
+                            fav_added += 1
+                    _settings["favorites"] = favs
+
+                    cycles = _settings.get("cycles", {})
+                    for name, cyc in imported_settings.get("cycles", {}).items():
+                        if name not in cycles or not cycles[name]:
+                            cycles[name] = cyc
+                            cyc_added += 1
+                    _settings["cycles"] = cycles
+
+                    save_settings(_settings)
+                    self._refresh_fav_ui()
+
+                status.configure(
+                    text=(f"✔ 가져오기 완료 (계산내역 {len(imported_hist)}명, "
+                          f"즐겨찾기 +{fav_added}, 사이클 +{cyc_added})"),
+                    fg=C["gold_lt"])
+            except Exception as e:
+                status.configure(text=f"가져오기 실패: {e}", fg=C["red"])
+
+        bf = tk.Frame(body, bg=C["bg"])
+        bf.pack(fill="x")
+        tk.Button(bf, text="내보내기", font=("맑은 고딕", 9, "bold"), fg=C["bg"], bg=C["gold_lt"],
+                  relief="flat", command=do_export).pack(side="left", ipadx=10, ipady=4, padx=(0, 8))
+        tk.Button(bf, text="가져오기 (병합)", font=("맑은 고딕", 9), fg=C["text"], bg=C["tbl_hd"],
+                  relief="flat", command=do_import).pack(side="left", ipadx=10, ipady=4)
+
+        status.pack(fill="x", pady=(10, 0))
+
+        tk.Frame(win, bg=C["border"], height=1).pack(fill="x")
+        tk.Button(win, text="닫기",
+                  font=("맑은 고딕", 9), fg=C["text"], bg=C["tbl_hd"],
+                  relief="flat", command=win.destroy).pack(pady=8, ipadx=16, ipady=4)
+
+        win.update_idletasks()
+        _place_on_cursor_monitor(win, 340, win.winfo_reqheight())
+
     def _on_focus_in(self):
         q = self._entry.get().strip()
         if not q and self._search_history:
@@ -2148,13 +2513,14 @@ class MainPanel:
             if self._search_history:
                 self._show_dropdown(self._search_history, is_history=True)
             return
-        matches = [k for k in self.chars if q in k or k in q]
+        matches = sorted([k for k in self.chars if q in k or k in q], key=lambda k: (k != q, not k.startswith(q)))
         self._show_dropdown(matches)
 
     def _show_dropdown(self, matches, is_history=False):
         self._close_dropdown()
         self._dd_items = matches
         self._dd_index = -1
+        self._dd_rows = []
 
         x = self._entry.winfo_rootx()
         y = self._entry.winfo_rooty() + self._entry.winfo_height()
@@ -2177,13 +2543,40 @@ class MainPanel:
 
         if matches:
             for i, name in enumerate(matches):
-                lbl = tk.Label(inner, text=name,
+                row = tk.Frame(inner, bg=C["hd"])
+                row.pack(fill="x")
+                lbl = tk.Label(row, text=name,
                                font=("맑은 고딕", 10), fg=C["text"], bg=C["hd"],
                                padx=10, pady=5, anchor="w", cursor="hand2")
-                lbl.pack(fill="x")
-                lbl.bind("<Enter>",    lambda e, l=lbl: l.configure(bg=C["tbl_hd"], fg=C["gold_lt"]))
-                lbl.bind("<Leave>",    lambda e, l=lbl: l.configure(bg=C["hd"], fg=C["text"]))
-                lbl.bind("<Button-1>", lambda e, n=name: self._select_item(n))
+                lbl.pack(side="left", fill="x", expand=True)
+
+                best = get_best_record(name)
+                badge = None
+                if best:
+                    g, col = grade_of(best.get("score", 0))
+                    badge = tk.Label(row, text=f"{g} {best['score']:.1f}",
+                                      font=("맑은 고딕", 8, "bold"), fg=col, bg=C["hd"],
+                                      padx=8, cursor="hand2")
+                    badge.pack(side="right")
+
+                widgets = [w2 for w2 in (row, lbl, badge) if w2 is not None]
+
+                def _hover_in(e, ws=widgets, l=lbl):
+                    for w2 in ws:
+                        w2.configure(bg=C["tbl_hd"])
+                    l.configure(fg=C["gold_lt"])
+
+                def _hover_out(e, ws=widgets, l=lbl):
+                    for w2 in ws:
+                        w2.configure(bg=C["hd"])
+                    l.configure(fg=C["text"])
+
+                for w2 in widgets:
+                    w2.bind("<Enter>", _hover_in)
+                    w2.bind("<Leave>", _hover_out)
+                    w2.bind("<Button-1>", lambda e, n=name: self._select_item(n))
+
+                self._dd_rows.append((row, lbl, widgets))
         else:
             tk.Label(inner, text="검색 결과 없음",
                      font=("맑은 고딕", 9), fg=C["dim"], bg=C["hd"],
@@ -2213,6 +2606,7 @@ class MainPanel:
             self._dropdown = None
         self._dd_items = []
         self._dd_index = -1
+        self._dd_rows = []
 
     def _dd_move(self, direction):
         if not self._dd_items:
@@ -2223,17 +2617,15 @@ class MainPanel:
         self._entry.insert(0, name)
         self._last_query = name
         self._entry.icursor("end")
-        if self._dropdown:
-            try:
-                inner = self._dropdown.winfo_children()[0]
-                for i, child in enumerate(inner.winfo_children()):
-                    if isinstance(child, tk.Label):
-                        if i == self._dd_index:
-                            child.configure(bg=C["tbl_hd"], fg=C["gold_lt"])
-                        else:
-                            child.configure(bg=C["hd"], fg=C["text"])
-            except Exception:
-                pass
+        for i, (row, lbl, widgets) in enumerate(self._dd_rows):
+            if i == self._dd_index:
+                for w2 in widgets:
+                    w2.configure(bg=C["tbl_hd"])
+                lbl.configure(fg=C["gold_lt"])
+            else:
+                for w2 in widgets:
+                    w2.configure(bg=C["hd"])
+                lbl.configure(fg=C["text"])
 
     def _select_item(self, name):
         self._entry.delete(0, "end")
@@ -2332,11 +2724,12 @@ class MainPanel:
         self._close_dropdown()
         self._entry.delete(0, "end")
         self._last_query = ""
-        found = None
-        for k, v in self.chars.items():
-            if q in k or k in q:
-                found = v
-                break
+        found = self.chars.get(q)
+        if not found:
+            for k, v in self.chars.items():
+                if q in k or k in q:
+                    found = v
+                    break
         self._close_popup()
         if found:
             name = found["name"]
